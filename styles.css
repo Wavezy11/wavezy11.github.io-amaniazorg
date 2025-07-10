@@ -1129,6 +1129,66 @@ body {
   .portfolio-grid,
   .collaborations-grid {
     grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  /* Portfolio Mobile Specific */
+  .portfolio-section {
+    padding: 4rem 0 !important;
+  }
+
+  .portfolio-subtitle {
+    font-size: 1.1rem !important;
+    margin-bottom: 3rem !important;
+    padding: 0 10px !important;
+  }
+
+  .portfolio-card {
+    border-radius: 16px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .portfolio-image {
+    height: 200px !important;
+    border-radius: 16px 16px 0 0 !important;
+  }
+
+  .portfolio-content {
+    padding: 1.5rem !important;
+  }
+
+  .portfolio-content h3 {
+    font-size: 1.25rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .portfolio-content p {
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .portfolio-tags {
+    gap: 0.5rem !important;
+  }
+
+  .tag {
+    padding: 0.25rem 0.75rem !important;
+    font-size: 0.8rem !important;
+    border-radius: 12px !important;
+  }
+
+  .portfolio-overlay {
+    border-radius: 16px 16px 0 0 !important;
+  }
+
+  .portfolio-info i {
+    font-size: 1.75rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .portfolio-info span {
+    font-size: 1rem !important;
   }
 }
 
@@ -1181,6 +1241,63 @@ body {
   .collaborations-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
+  }
+
+  /* Portfolio Tablet Specific */
+  .portfolio-section {
+    padding: 6rem 0;
+  }
+
+  .portfolio-subtitle {
+    font-size: 1.15rem;
+    margin-bottom: 4rem;
+  }
+
+  .portfolio-card {
+    border-radius: 20px;
+  }
+
+  .portfolio-image {
+    height: 240px;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .portfolio-content {
+    padding: 2rem;
+  }
+
+  .portfolio-content h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .portfolio-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .portfolio-tags {
+    gap: 0.6rem;
+  }
+
+  .tag {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    border-radius: 16px;
+  }
+
+  .portfolio-overlay {
+    border-radius: 20px 20px 0 0;
+  }
+
+  .portfolio-info i {
+    font-size: 2rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .portfolio-info span {
+    font-size: 1.05rem;
   }
 
   .about-content,
