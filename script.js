@@ -38,48 +38,6 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   })
 })
 
-// Counter animation
-function animateCounter() {
-  const counter = document.getElementById("counter")
-  const target = 20000000000 // 20 billion
-  const duration = 1500 // 1.5 seconds (faster)
-  const increment = target / (duration / 16) // 60fps
-  let current = 0
-
-  const timer = setInterval(() => {
-    current += increment
-    if (current >= target) {
-      current = target
-      clearInterval(timer)
-    }
-
-    // Format number with dots as thousand separators
-    const formatted = Math.floor(current).toLocaleString("nl-NL")
-    counter.textContent = formatted
-  }, 16)
-}
-
-// Intersection Observer for counter animation
-const observerOptions = {
-  threshold: 0.5,
-  rootMargin: "0px 0px -100px 0px",
-}
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting && entry.target.id === "stats") {
-      animateCounter()
-      observer.unobserve(entry.target)
-    }
-  })
-}, observerOptions)
-
-// Observe the stats section
-const statsSection = document.getElementById("stats")
-if (statsSection) {
-  observer.observe(statsSection)
-}
-
 // Form handling
 const contactForm = document.getElementById("contact-form")
 const formSuccess = document.getElementById("form-success")
@@ -174,7 +132,6 @@ document.querySelectorAll(".cta-button").forEach((button) => {
 window.addEventListener("scroll", () => {
   const scrolled = window.pageYOffset
   const heroGlow = document.querySelector(".hero-glow")
-
   if (heroGlow && scrolled < window.innerHeight) {
     heroGlow.style.transform = `translate(-50%, -50%) translateY(${scrolled * 0.5}px)`
   }
@@ -209,24 +166,28 @@ const portfolioModal = document.getElementById("portfolio-modal")
 const modalClose = document.getElementById("modal-close")
 const portfolioCards = document.querySelectorAll(".portfolio-card")
 
-// Portfolio project data
+// Portfolio project data (reverted to all 6 projects)
 const portfolioData = {
   "viral-tiktok": {
-    title: "Viral TikTok Campagne",
+    title: "Tiktok Recap Video voor het Abu Tayyimah Event",
     description:
-      "Deze creatieve shortform video campagne voor een lokale restaurant keten ging binnen 48 uur viral en behaalde meer dan 2.5 miljoen weergaven. Door gebruik te maken van trending audio, authentieke storytelling en strategische hashtags creëerden we content die perfect aansloot bij de doelgroep. Het resultaat was niet alleen massale online exposure, maar ook een directe toename van 40% in restaurantbezoeken.",
+      "Voor het event van Abu Tayyimah maakte ik een korte recapvideo in vertical format. De video liet op een duidelijke en aantrekkelijke manier de sfeer en belangrijkste momenten van het event zien. Door de video slim op social media te delen met relevante hashtags kreeg het event extra aandacht en bereik ook na afloop.",
     mainImage:
       "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    video: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
-    stats: [
-      { number: "2.5M+", label: "Weergaven" },
-      { number: "48u", label: "Viral tijd" },
-      { number: "40%", label: "Meer bezoekers" },
-      { number: "15K+", label: "Nieuwe volgers" },
-    ],
+    video: "videos/Recap-Abu Taymiyyah event.mp4",
     gallery: [
-      "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      {
+        type: "video",
+        src: "videos/abu-taymiyyah-vertical-1.mp4",
+        thumbnail:
+          "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      },
+      {
+        type: "video",
+        src: "videos/abu-taymiyyah-vertical-2.mp4",
+        thumbnail:
+          "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      },
       "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
       "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
     ],
@@ -238,12 +199,6 @@ const portfolioData = {
       "Voor deze ambitieuze tech startup ontwikkelden we een complete merkidentiteit van de grond af. Het project omvatte logo ontwerp, kleurenpalet, typografie, brandrichtlijnen en alle marketing materialen. Door diepgaand onderzoek naar de doelgroep en concurrentieanalyse creëerden we een unieke visuele identiteit die perfect de innovatieve geest van het bedrijf weergeeft.",
     mainImage:
       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    stats: [
-      { number: "100%", label: "Nieuwe identiteit" },
-      { number: "3 weken", label: "Ontwikkeltijd" },
-      { number: "50+", label: "Design assets" },
-      { number: "95%", label: "Klant tevredenheid" },
-    ],
     gallery: [
       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
       "https://images.unsplash.com/photo-1558655146-d09347e92766?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
@@ -257,12 +212,6 @@ const portfolioData = {
       "Deze moderne webshop werd volledig opnieuw ontworpen met focus op gebruikerservaring en conversie optimalisatie. Door implementatie van een intuïtieve navigatie, snelle laadtijden, mobiele optimalisatie en strategische call-to-actions bereikten we een 300% toename in online verkopen binnen slechts 3 maanden na de lancering.",
     mainImage:
       "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    stats: [
-      { number: "300%", label: "Meer verkopen" },
-      { number: "3 maanden", label: "ROI tijd" },
-      { number: "2.5s", label: "Laadtijd" },
-      { number: "4.8/5", label: "User rating" },
-    ],
     gallery: [
       "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
       "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
@@ -277,12 +226,6 @@ const portfolioData = {
       "Voor dit lifestyle merk ontwikkelden we een complete Instagram groeistrategie die resulteerde in explosieve groei. Door consistente, hoogwaardige content, strategische hashtag research, community engagement en influencer partnerships groeiden ze van 2K naar 12K volgers in 6 maanden met significant verhoogde engagement rates.",
     mainImage:
       "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    stats: [
-      { number: "500%", label: "Follower groei" },
-      { number: "6 maanden", label: "Groeiperiode" },
-      { number: "8.5%", label: "Engagement rate" },
-      { number: "50K+", label: "Maandelijkse reach" },
-    ],
     gallery: [
       "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
       "https://images.unsplash.com/photo-1611262588024-d12430b98920?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
@@ -297,12 +240,6 @@ const portfolioData = {
     mainImage:
       "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     video: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4",
-    stats: [
-      { number: "1M+", label: "Weergaven" },
-      { number: "45%", label: "Meer conversies" },
-      { number: "2 min", label: "Video lengte" },
-      { number: "92%", label: "Completion rate" },
-    ],
     gallery: [
       "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
       "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
@@ -316,12 +253,6 @@ const portfolioData = {
       "Voor deze premium sieraden collectie verzorgden we een complete productfotografie sessie. Met professionele studio setup, perfecte belichting en creatieve styling creëerden we beelden die de luxe uitstraling van de producten perfect vastleggen. Het resultaat was een 60% toename in online conversies en verhoogde merkperceptie.",
     mainImage:
       "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    stats: [
-      { number: "60%", label: "Meer conversies" },
-      { number: "100+", label: "Product foto's" },
-      { number: "1 dag", label: "Shoot duur" },
-      { number: "4K", label: "Foto kwaliteit" },
-    ],
     gallery: [
       "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
       "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
@@ -336,7 +267,6 @@ portfolioCards.forEach((card) => {
   card.addEventListener("click", () => {
     const projectId = card.getAttribute("data-project")
     const project = portfolioData[projectId]
-
     if (project) {
       openPortfolioModal(project)
     }
@@ -367,38 +297,45 @@ function openPortfolioModal(project) {
   const modalImage = document.getElementById("modal-main-image")
   const modalVideo = document.getElementById("modal-main-video")
 
-  if (project.video) {
-    modalImage.style.display = "none"
-    modalVideo.style.display = "block"
-    modalVideo.querySelector("source").src = project.video
-    modalVideo.load()
-  } else {
-    modalVideo.style.display = "none"
-    modalImage.style.display = "block"
-    modalImage.src = project.mainImage
-    modalImage.alt = project.title
-  }
-
-  // Set stats
-  const statsContainer = document.getElementById("modal-stats")
-  statsContainer.innerHTML = ""
-  project.stats.forEach((stat) => {
-    const statElement = document.createElement("div")
-    statElement.className = "stat-item"
-    statElement.innerHTML = `
-      <span class="stat-number">${stat.number}</span>
-      <span class="stat-label">${stat.label}</span>
-    `
-    statsContainer.appendChild(statElement)
-  })
+  // Always hide video in header and show image
+  modalVideo.style.display = "none"
+  modalImage.style.display = "block"
+  modalImage.src = project.mainImage
+  modalImage.alt = project.title
 
   // Set gallery
   const galleryGrid = document.getElementById("gallery-grid")
+
   galleryGrid.innerHTML = ""
-  project.gallery.forEach((imageSrc) => {
+
+  // Add video as first item in gallery if it exists
+  if (project.video) {
     const galleryItem = document.createElement("div")
     galleryItem.className = "gallery-item"
-    galleryItem.innerHTML = `<img src="${imageSrc}" alt="Project afbeelding" class="gallery-image">`
+    galleryItem.innerHTML = `
+    <video class="gallery-video" controls>
+      <source src="${project.video}" type="video/mp4">
+    </video>
+  `
+    galleryGrid.appendChild(galleryItem)
+  }
+
+  // Then add all other gallery items
+  project.gallery.forEach((item) => {
+    const galleryItem = document.createElement("div")
+    galleryItem.className = "gallery-item"
+
+    if (typeof item === "object" && item.type === "video") {
+      galleryItem.innerHTML = `
+    <video class="gallery-video" controls poster="${item.thumbnail}">
+      <source src="${item.src}" type="video/mp4">
+    </video>
+  `
+    } else {
+      const imageSrc = typeof item === "string" ? item : item.src
+      galleryItem.innerHTML = `<img src="${imageSrc}" alt="Project afbeelding" class="gallery-image">`
+    }
+
     galleryGrid.appendChild(galleryItem)
   })
 
@@ -459,4 +396,66 @@ function handleModalCTA(e) {
       }, 800)
     }
   }, 300)
+}
+
+// Process steps animation
+const processSteps = document.querySelectorAll(".process-step")
+
+processSteps.forEach((step, index) => {
+  step.style.opacity = "0"
+  step.style.transform = "translateY(40px)"
+  step.style.transition = "opacity 0.6s ease, transform 0.6s ease"
+
+  // Add delay based on index for staggered animation
+  setTimeout(() => {
+    animateOnScroll.observe(step)
+  }, index * 100)
+})
+
+// Counter animation for stats section
+const counterElement = document.getElementById("counter")
+const targetValue = 20000000000 // 20 billion
+const duration = 1500 // 1.5 seconds for animation (was 3000)
+
+let animationStarted = false
+
+function formatViews(num) {
+  return Math.round(num).toLocaleString("nl-NL") // Round to nearest integer and format with locale-specific thousands separators
+}
+
+function animateCounter(timestamp) {
+  if (!animateCounter.startTime) animateCounter.startTime = timestamp
+  const progress = timestamp - animateCounter.startTime
+  const percentage = Math.min(progress / duration, 1)
+  const currentValue = percentage * targetValue
+
+  counterElement.textContent = formatViews(currentValue)
+
+  if (percentage < 1) {
+    requestAnimationFrame(animateCounter)
+  } else {
+    counterElement.textContent = formatViews(targetValue) // Ensure final value is exact
+  }
+}
+
+const statsObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && !animationStarted) {
+        animationStarted = true
+        animateCounter.startTime = null // Reset startTime for a fresh animation
+        requestAnimationFrame(animateCounter)
+        statsObserver.unobserve(entry.target) // Stop observing once animated
+      }
+    })
+  },
+  {
+    threshold: 0.5, // Trigger when 50% of the section is visible
+    rootMargin: "0px 0px -100px 0px", // Adjust as needed
+  },
+)
+
+const statsSection = document.getElementById("stats")
+if (statsSection) {
+  statsObserver.observe(statsSection)
 }
