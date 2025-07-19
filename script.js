@@ -169,7 +169,7 @@ const portfolioCards = document.querySelectorAll(".portfolio-card")
 // Portfolio project data (reverted to all 6 projects)
 const portfolioData = {
   "viral-tiktok": {
-    title: "Tiktok Recap Video voor het Abu Tayyimah Event",
+    title: "Aftermovie voor het Abu Tayyimah Event ",
     description:
       "Voor het event van Abu Tayyimah maakte ik een korte recapvideo in vertical format. De video liet op een duidelijke en aantrekkelijke manier de sfeer en belangrijkste momenten van het event zien. Door de video slim op social media te delen met relevante hashtags kreeg het event extra aandacht en bereik ook na afloop.",
     mainImage:
@@ -180,25 +180,19 @@ const portfolioData = {
         type: "video",
         src: "videos/abu-taymiyyah-vertical-1.mp4",
         thumbnail:
-          "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "/img/abu taymiyyah/hero.jpg",
       },
-      {
-        type: "video",
-        src: "videos/abu-taymiyyah-vertical-2.mp4",
-        thumbnail:
-          "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      },
-      "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+     
+ 
     ],
-    projectLink: "https://tiktok.com/@example",
+    projectLink: "https://www.tiktok.com/@barakahboost.nl/video/7523627234582646038?is_from_webapp=1&sender_device=pc&web_id=7525483219611026977",
   },
   "brand-identity": {
-    title: "Complete Brand Identity",
+    title: "Nuurfades - Fotografie en Editwerk",
     description:
-      "Voor deze ambitieuze tech startup ontwikkelden we een complete merkidentiteit van de grond af. Het project omvatte logo ontwerp, kleurenpalet, typografie, brandrichtlijnen en alle marketing materialen. Door diepgaand onderzoek naar de doelgroep en concurrentieanalyse creëerden we een unieke visuele identiteit die perfect de innovatieve geest van het bedrijf weergeeft.",
+      "Voor Nuurfades mocht ik zowel de fotografie als het editwerk verzorgen. Ik ging op zoek naar beelden die passen bij de uitstraling van het merk: stijlvol, warm en persoonlijk. Tijdens het editen lette ik op de kleinste details om ervoor te zorgen dat alles klopt — van kleurgebruik tot compositie. Het resultaat is een reeks foto's die niet alleen mooi zijn, maar ook écht iets vertellen. Deze beelden worden nu effectief ingezet op social media en andere kanalen, en dragen bij aan een sterke, herkenbare visuele identiteit.",
     mainImage:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "img/nuurfades/e89b3b7a-a0da-461b-9dd8-69452b3c8713_rw_1200.jpg",
     gallery: [
       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
       "https://images.unsplash.com/photo-1558655146-d09347e92766?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
@@ -207,16 +201,14 @@ const portfolioData = {
     ],
   },
   "ecommerce-platform": {
-    title: "E-commerce Platform",
+    title: "Livzorg - Fotografie",
     description:
-      "Deze moderne webshop werd volledig opnieuw ontworpen met focus op gebruikerservaring en conversie optimalisatie. Door implementatie van een intuïtieve navigatie, snelle laadtijden, mobiele optimalisatie en strategische call-to-actions bereikten we een 300% toename in online verkopen binnen slechts 3 maanden na de lancering.",
+      "Voor Livzorg maakte ik een fotoserie waarin de mensen centraal staan. Geen afstandelijke beelden, maar echte momenten waarin warmte, rust en betrokkenheid voelbaar zijn. In de nabewerking heb ik de beelden zacht gehouden, zodat de natuurlijke sfeer behouden blijft. Dit sluit goed aan bij wie Livzorg is en waar ze voor staan. In de toekomst zal ik ook de videografie voor Livzorg op me nemen, zodat we hun verhaal nog breder en dieper kunnen vertellen — in beeld én beweging.",
     mainImage:
-      "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "img/liv zorg/main-foto.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1556742111-a301076d9d18?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      "img/liv zorg/main-foto.jpg",
+      "img/liv zorg/verticale-foto.jpg"
     ],
     projectLink: "https://example-store.com",
   },
