@@ -10,10 +10,17 @@ body {
   line-height: 1.6;
   color: #ffffff;
   background: linear-gradient(180deg, #0a0a0a 0%, #001a0d 25%, #003315 50%, #001a0d 75%, #0a0a0a 100%);
-  background-attachment: fixed;
+  background-attachment: fixed; /* Standaard voor desktop */
   overflow-x: hidden;
   font-weight: 400;
   letter-spacing: -0.01em;
+}
+
+/* Mobiele aanpassing voor de achtergrondgradiënt */
+@media screen and (max-width: 768px) {
+  body {
+    background-attachment: scroll; /* Laat de achtergrond meescrollen op mobiel */
+  }
 }
 
 .container {
@@ -663,6 +670,14 @@ body {
     transform: translateY(-50%); /* Adjust for vertical centering */
   }
 
+  .mobile-menu {
+    padding: 1rem 0; /* Reduce padding for mobile menu */
+  }
+
+  .mobile-nav-link {
+    padding: 0.75rem 24px; /* Adjust padding for mobile links */
+  }
+
   .hero-content {
     grid-template-columns: 1fr;
     gap: 4rem;
@@ -694,11 +709,16 @@ body {
     gap: 2rem;
   }
 
-  .about-content,
-  .contact-content {
+  .about-content {
     grid-template-columns: 1fr;
     gap: 3rem;
-    text-align: center; /* Centered content in about and contact sections */
+    text-align: center; /* Centers content within the single column */
+  }
+
+  .contact-content {
+    grid-template-columns: 1fr; /* Stack columns on mobile */
+    gap: 3rem;
+    text-align: center; /* Center the entire content block on mobile */
   }
 
   .about-text {
@@ -715,15 +735,15 @@ body {
   }
 
   .contact-info {
-    text-align: center;
+    text-align: center; /* Centers text within contact-info on mobile */
   }
 
   .contact-form {
-    text-align: center; /* Center form elements like the button */
+    text-align: center; /* Centers form elements like the button on mobile */
   }
 
   .left-align {
-    text-align: center !important;
+    text-align: center !important; /* Overrides left-align for mobile */
   }
 
   .contact-details {
@@ -926,19 +946,6 @@ body {
   object-position: center 80%;
 }
 
-/* Custom positioning for specific needs */
-.position-face-focus {
-  object-position: center 30%; /* Good for portraits */
-}
-
-.position-product-focus {
-  object-position: center 40%; /* Good for product shots */
-}
-
-.position-screen-focus {
-  object-position: center 35%; /* Good for laptop/screen shots */
-}
-
 .portfolio-card:hover .project-image {
   transform: scale(1.05);
 }
@@ -1088,7 +1095,12 @@ body {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: 6rem;
-  align-items: start;
+  align-items: start; /* Verticaal bovenaan uitlijnen */
+  /* Verwijder max-width en margin: 0 auto; om de sectie breed te houden op desktop */
+}
+
+.contact-info {
+  text-align: left; /* Tekst links uitlijnen op desktop */
 }
 
 .contact-description {
@@ -1107,6 +1119,7 @@ body {
 .contact-item {
   display: flex;
   align-items: center;
+  justify-content: flex-start; /* Items links uitlijnen op desktop */
   margin-bottom: 1.5rem;
   color: rgba(255, 255, 255, 0.8);
   font-size: 1.05rem;
