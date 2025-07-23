@@ -41,59 +41,81 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
 // Form handling
 const contactForm = document.getElementById("contact-form")
 const formSuccess = document.getElementById("form-success")
+const successMessageTitle = formSuccess.querySelector("h3")
+const successMessageParagraph = formSuccess.querySelector("p")
+const successMessageIcon = formSuccess.querySelector("i")
 
 contactForm.addEventListener("submit", async function (e) {
-  e.preventDefault()
+  e.preventDefault() // Prevent default form submission (page reload)
 
-  // Get form data
   const formData = new FormData(this)
-  const data = {
-    name: formData.get("name"),
-    email: formData.get("email"),
-    phone: formData.get("phone"),
-    message: formData.get("message"),
-  }
+  const name = formData.get("name")
+  const email = formData.get("email")
+  const message = formData.get("message")
 
   // Basic validation
-  if (!data.name || !data.email || !data.message) {
+  if (!name || !email || !message) {
     alert("Vul alle verplichte velden in.")
     return
   }
 
   // Email validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  if (!emailRegex.test(data.email)) {
+  if (!emailRegex.test(email)) {
     alert("Voer een geldig e-mailadres in.")
     return
   }
 
+  const submitButton = this.querySelector('button[type="submit"]')
+  const originalButtonText = submitButton.textContent
+
+  // Show loading state
+  submitButton.textContent = "Versturen..."
+  submitButton.disabled = true
+  submitButton.classList.add("opacity-50", "cursor-not-allowed") // Add Tailwind classes for disabled state
+
   try {
-    // Simulate form submission (replace with actual endpoint)
-    await simulateFormSubmission(data)
+    const response = await fetch(this.action, {
+      method: this.method,
+      body: formData,
+      headers: {
+        Accept: "application/json", // Indicate that we expect a JSON response
+      },
+    })
 
-    // Show success message
+    const result = await response.json()
+
+    if (result.status === "success") {
+      successMessageTitle.textContent = "Bedankt voor je aanvraag!"
+      successMessageParagraph.textContent = result.message
+      successMessageIcon.className = "fas fa-check-circle" // Green checkmark
+      formSuccess.classList.remove("hidden")
+      formSuccess.style.background = "rgba(26, 125, 68, 0.95)" // Green background for success
+      contactForm.reset() // Clear the form
+    } else {
+      successMessageTitle.textContent = "Oeps, er ging iets mis!"
+      successMessageParagraph.textContent = result.message || "Er is een onbekende fout opgetreden."
+      successMessageIcon.className = "fas fa-exclamation-circle" // Red exclamation mark
+      formSuccess.classList.remove("hidden")
+      formSuccess.style.background = "rgba(220, 38, 38, 0.95)" // Red background for error
+    }
+  } catch (error) {
+    console.error("Fout bij verzenden formulier:", error)
+    successMessageTitle.textContent = "Netwerkfout!"
+    successMessageParagraph.textContent = "Kon geen verbinding maken met de server. Probeer het later opnieuw."
+    successMessageIcon.className = "fas fa-exclamation-triangle" // Yellow triangle
     formSuccess.classList.remove("hidden")
-    contactForm.reset()
-
-    // Hide success message after 5 seconds
+    formSuccess.style.background = "rgba(250, 170, 20, 0.95)" // Orange background for network error
+  } finally {
+    // Hide success/error message after a few seconds
     setTimeout(() => {
       formSuccess.classList.add("hidden")
+      submitButton.textContent = originalButtonText
+      submitButton.disabled = false
+      submitButton.classList.remove("opacity-50", "cursor-not-allowed")
     }, 5000)
-  } catch (error) {
-    alert("Er is een fout opgetreden. Probeer het later opnieuw.")
-    console.error("Form submission error:", error)
   }
 })
-
-// Simulate form submission (replace with actual API call)
-async function simulateFormSubmission(data) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log("Form submitted:", data)
-      resolve()
-    }, 1000)
-  })
-}
 
 // Navbar background on scroll
 window.addEventListener("scroll", () => {
@@ -107,24 +129,22 @@ window.addEventListener("scroll", () => {
   }
 })
 
-// Add loading animation to CTA buttons
+// Add loading animation to CTA buttons (only for non-form buttons)
 document.querySelectorAll(".cta-button").forEach((button) => {
   button.addEventListener("click", function (e) {
-    if (this.getAttribute("href") === "#contact") {
-      return // Let normal scroll behavior work
+    if (this.getAttribute("href") === "#contact" || this.type === "submit") {
+      return // Let normal scroll behavior work or form handler manage loading
     }
 
-    // Add loading state for form submission
-    if (this.type === "submit") {
-      const originalText = this.textContent
-      this.textContent = "Versturen..."
-      this.disabled = true
+    // Add loading state for other CTA buttons if needed
+    const originalText = this.textContent
+    this.textContent = "Laden..."
+    this.disabled = true
 
-      setTimeout(() => {
-        this.textContent = originalText
-        this.disabled = false
-      }, 2000)
-    }
+    setTimeout(() => {
+      this.textContent = originalText
+      this.disabled = false
+    }, 2000)
   })
 })
 
@@ -166,49 +186,44 @@ const portfolioModal = document.getElementById("portfolio-modal")
 const modalClose = document.getElementById("modal-close")
 const portfolioCards = document.querySelectorAll(".portfolio-card")
 
-// Portfolio project data (reverted to all 6 projects)
+// Portfolio project data
 const portfolioData = {
   "viral-tiktok": {
     title: "Aftermovie voor het Abu Tayyimah Event ",
     description:
       "Voor het event van Abu Tayyimah maakte ik een korte recapvideo in vertical format. De video liet op een duidelijke en aantrekkelijke manier de sfeer en belangrijkste momenten van het event zien. Door de video slim op social media te delen met relevante hashtags kreeg het event extra aandacht en bereik ook na afloop.",
-    mainImage:
-      "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    video: "videos/Recap-Abu Taymiyyah event.mp4",
+    mainImage: "img/abu taymiyyah/hero edit.jpg",
+    imagePosition: "50% 3%",
+    isVertical: true, // Nieuwe vlag voor verticale afbeeldingen
+    video: "videos/Recap-Abu Taymiyyah event.mp4", // Main video for the project
     gallery: [
       {
-        type: "video",
-        src: "videos/abu-taymiyyah-vertical-1.mp4",
-        thumbnail:
-          "/img/abu taymiyyah/hero.jpg",
+        type: "image", // Changed from "video" to "image"
+        src: "img/abu taymiyyah/hero.jpg", // Changed to use the thumbnail as the image source
+        isVertical: true, // Explicitly mark this gallery image as vertical
       },
-     
- 
     ],
-    projectLink: "https://www.tiktok.com/@barakahboost.nl/video/7523627234582646038?is_from_webapp=1&sender_device=pc&web_id=7525483219611026977",
+    projectLink:
+      "https://www.tiktok.com/@barakahboost.nl/video/7523627234582646038?is_from_webapp=1&sender_device=pc&web_id=7525483219611026977",
   },
   "brand-identity": {
     title: "Nuurfades - Fotografie en Editwerk",
     description:
       "Voor Nuurfades mocht ik zowel de fotografie als het editwerk verzorgen. Ik ging op zoek naar beelden die passen bij de uitstraling van het merk: stijlvol, warm en persoonlijk. Tijdens het editen lette ik op de kleinste details om ervoor te zorgen dat alles klopt — van kleurgebruik tot compositie. Het resultaat is een reeks foto's die niet alleen mooi zijn, maar ook écht iets vertellen. Deze beelden worden nu effectief ingezet op social media en andere kanalen, en dragen bij aan een sterke, herkenbare visuele identiteit.",
-    mainImage:
-      "img/nuurfades/e89b3b7a-a0da-461b-9dd8-69452b3c8713_rw_1200.jpg",
-    gallery: [
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1558655146-d09347e92766?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-    ],
+    mainImage: "img/nuurfades/e89b3b7a-a0da-461b-9dd8-69452b3c8713_rw_1200.jpg",
+    imagePosition: "center 20%",
+    isVertical: true, // Nieuwe vlag voor verticale afbeeldingen
+    gallery: ["img/nuurfades/e89b3b7a-a0da-461b-9dd8-69452b3c8713_rw_1200.jpg"],
   },
   "ecommerce-platform": {
     title: "Livzorg - Fotografie",
     description:
       "Voor Livzorg maakte ik een fotoserie waarin de mensen centraal staan. Geen afstandelijke beelden, maar echte momenten waarin warmte, rust en betrokkenheid voelbaar zijn. In de nabewerking heb ik de beelden zacht gehouden, zodat de natuurlijke sfeer behouden blijft. Dit sluit goed aan bij wie Livzorg is en waar ze voor staan. In de toekomst zal ik ook de videografie voor Livzorg op me nemen, zodat we hun verhaal nog breder en dieper kunnen vertellen — in beeld én beweging.",
-    mainImage:
-      "img/liv zorg/main-foto.jpg",
+    mainImage: "img/liv zorg/main-foto.jpg",
+    imagePosition: "right center",
     gallery: [
-      "img/liv zorg/main-foto.jpg",
-      "img/liv zorg/verticale-foto.jpg"
+      { type: "image", src: "img/liv zorg/main-foto.jpg", isVertical: false }, // Explicitly mark as vertical
+      { type: "image", src: "img/liv zorg/verticale-foto.jpg", isVertical: true }, // Explicitly mark as vertical
     ],
     projectLink: "https://example-store.com",
   },
@@ -218,6 +233,7 @@ const portfolioData = {
       "Voor dit lifestyle merk ontwikkelden we een complete Instagram groeistrategie die resulteerde in explosieve groei. Door consistente, hoogwaardige content, strategische hashtag research, community engagement en influencer partnerships groeiden ze van 2K naar 12K volgers in 6 maanden met significant verhoogde engagement rates.",
     mainImage:
       "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    imagePosition: "center center",
     gallery: [
       "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
       "https://images.unsplash.com/photo-1611262588024-d12430b98920?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
@@ -231,6 +247,7 @@ const portfolioData = {
       "Deze dynamische animatie video werd ontwikkeld om complexe SaaS diensten op een eenvoudige en boeiende manier uit te leggen. Door gebruik van moderne motion graphics, duidelijke voice-over en strategische storytelling creëerden we content die meer dan 1 miljoen keer bekeken werd en de conversie rate met 45% verhoogde.",
     mainImage:
       "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    imagePosition: "center center",
     video: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4",
     gallery: [
       "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
@@ -245,6 +262,7 @@ const portfolioData = {
       "Voor deze premium sieraden collectie verzorgden we een complete productfotografie sessie. Met professionele studio setup, perfecte belichting en creatieve styling creëerden we beelden die de luxe uitstraling van de producten perfect vastleggen. Het resultaat was een 60% toename in online conversies en verhoogde merkperceptie.",
     mainImage:
       "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    imagePosition: "center center",
     gallery: [
       "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
       "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
@@ -263,6 +281,16 @@ portfolioCards.forEach((card) => {
       openPortfolioModal(project)
     }
   })
+
+  // Apply image position to the main portfolio card image on load
+  const projectId = card.getAttribute("data-project")
+  const project = portfolioData[projectId]
+  if (project && project.imagePosition) {
+    const projectImage = card.querySelector(".project-image")
+    if (projectImage) {
+      projectImage.style.objectPosition = project.imagePosition
+    }
+  }
 })
 
 // Close modal
@@ -285,7 +313,7 @@ function openPortfolioModal(project) {
   document.getElementById("modal-title").textContent = project.title
   document.getElementById("modal-description").textContent = project.description
 
-  // Set main image or video
+  // Set main image or video in the modal header
   const modalImage = document.getElementById("modal-main-image")
   const modalVideo = document.getElementById("modal-main-video")
 
@@ -295,39 +323,61 @@ function openPortfolioModal(project) {
   modalImage.src = project.mainImage
   modalImage.alt = project.title
 
-  // Set gallery
-  const galleryGrid = document.getElementById("gallery-grid")
-
-  galleryGrid.innerHTML = ""
-
-  // Add video as first item in gallery if it exists
-  if (project.video) {
-    const galleryItem = document.createElement("div")
-    galleryItem.className = "gallery-item"
-    galleryItem.innerHTML = `
-    <video class="gallery-video" controls>
-      <source src="${project.video}" type="video/mp4">
-    </video>
-  `
-    galleryGrid.appendChild(galleryItem)
+  // Apply custom object-position if available
+  if (project.imagePosition) {
+    modalImage.style.objectPosition = project.imagePosition
+  } else {
+    modalImage.style.objectPosition = "center" // Default if not specified
   }
 
-  // Then add all other gallery items
+  // Voeg de 'is-vertical' klasse toe of verwijder deze
+  if (project.isVertical) {
+    modalImage.classList.add("is-vertical")
+  } else {
+    modalImage.classList.remove("is-vertical")
+  }
+
+  // Set gallery
+  const galleryGrid = document.getElementById("gallery-grid")
+  galleryGrid.innerHTML = "" // Clear previous gallery items
+
+  const itemsToDisplayInGallery = []
+
+  // Add the main project video to gallery if it exists
+  if (project.video) {
+    itemsToDisplayInGallery.push({
+      type: "video",
+      src: project.video,
+      thumbnail: project.mainImage || "/img/placeholder-video.png", // Gebruik lokale placeholder
+    })
+  }
+
+  // Add all other gallery items from the project.gallery array
   project.gallery.forEach((item) => {
+    if (typeof item === "string") {
+      // Assume string items are images and default to horizontal (cover)
+      itemsToDisplayInGallery.push({ type: "image", src: item })
+    } else {
+      // Assume object items are already structured (e.g., {type: 'video', src: ..., thumbnail: ...})
+      // Ensure isVertical is explicitly set, defaulting to false if not present
+      itemsToDisplayInGallery.push({ ...item })
+    }
+  })
+
+  // Populate the gallery grid
+  itemsToDisplayInGallery.forEach((item) => {
     const galleryItem = document.createElement("div")
     galleryItem.className = "gallery-item"
 
-    if (typeof item === "object" && item.type === "video") {
+    if (item.type === "video") {
       galleryItem.innerHTML = `
     <video class="gallery-video" controls poster="${item.thumbnail}">
       <source src="${item.src}" type="video/mp4">
     </video>
   `
-    } else {
-      const imageSrc = typeof item === "string" ? item : item.src
-      galleryItem.innerHTML = `<img src="${imageSrc}" alt="Project afbeelding" class="gallery-image">`
+    } else if (item.type === "image") {
+      galleryItem.innerHTML = `<img src="${item.src}" alt="Project afbeelding" class="gallery-image">`
     }
-
     galleryGrid.appendChild(galleryItem)
   })
 
@@ -451,3 +501,105 @@ const statsSection = document.getElementById("stats")
 if (statsSection) {
   statsObserver.observe(statsSection)
 }
+
+// Hero Slideshow Logic
+const heroMockupSlideshowContainer = document.querySelector(".hero-mockup-slideshow")
+const heroSlideshowItems = [
+  {
+    type: "image",
+    src: "img/abu taymiyyah/hero.jpg",
+    alt: "Event Recap Video",
+    poster: "img/abu taymiyyah/hero edit.png",
+  },
+  {
+    type: "image",
+    src: "img/nuurfades/e89b3b7a-a0da-461b-9dd8-69452b3c8713_rw_1200.jpg",
+    alt: "Nuurfades Fotografie Mockup",
+  },
+  { type: "image", src: "img/liv zorg/main-foto.jpg", alt: "Livzorg Fotografie Mockup" },
+]
+let currentHeroSlide = 0
+const heroSlideIntervalTime = 10000 // Change slide every 10 seconds (10000 ms)
+
+function createHeroSlideElement(item) {
+  const slideDiv = document.createElement("div")
+  slideDiv.classList.add("mobile-mockup-card")
+
+  const mockupContentDiv = document.createElement("div")
+  mockupContentDiv.classList.add("mockup-content")
+
+  if (item.type === "image") {
+    const imgElement = document.createElement("img")
+    imgElement.src = item.src
+    imgElement.alt = item.alt
+    imgElement.classList.add("mockup-image-video")
+    mockupContentDiv.appendChild(imgElement)
+  } else if (item.type === "video") {
+    const videoElement = document.createElement("video")
+    videoElement.src = item.src
+    videoElement.alt = item.alt
+    videoElement.classList.add("mockup-image-video")
+    videoElement.setAttribute("autoplay", "")
+    videoElement.setAttribute("loop", "")
+    videoElement.setAttribute("muted", "")
+    videoElement.setAttribute("playsinline", "")
+    if (item.poster) {
+      videoElement.setAttribute("poster", item.poster)
+    }
+    mockupContentDiv.appendChild(videoElement)
+  }
+
+  slideDiv.appendChild(mockupContentDiv)
+  return slideDiv
+}
+
+function initializeHeroSlideshow() {
+  if (!heroMockupSlideshowContainer) return
+
+  // Clear existing content
+  heroMockupSlideshowContainer.innerHTML = ""
+
+  // Add slides dynamically
+  heroSlideshowItems.forEach((item) => {
+    const slideElement = createHeroSlideElement(item)
+    heroMockupSlideshowContainer.appendChild(slideElement)
+  })
+
+  const slides = heroMockupSlideshowContainer.querySelectorAll(".mobile-mockup-card")
+
+  function showHeroSlide(index) {
+    slides.forEach((slide, i) => {
+      const video = slide.querySelector("video")
+
+      if (i === index) {
+        slide.classList.add("active")
+        if (video) {
+          video.currentTime = 0 // Reset video to start
+          video.play().catch((error) => {
+            console.warn("Video autoplay geblokkeerd (zelfs gedempt):", error)
+            // De browser staat autoplay niet toe zonder gebruikersinteractie.
+            // De video zal de poster afbeelding tonen totdat de gebruiker interactie heeft.
+          })
+        }
+      } else {
+        slide.classList.remove("active")
+        if (video) {
+          video.pause()
+        }
+      }
+    })
+  }
+
+  function nextHeroSlide() {
+    currentHeroSlide = (currentHeroSlide + 1) % slides.length
+    showHeroSlide(currentHeroSlide)
+  }
+
+  if (slides.length > 0) {
+    showHeroSlide(currentHeroSlide) // Show the first slide initially
+    setInterval(nextHeroSlide, heroSlideIntervalTime)
+  }
+}
+
+// Call initialize function when DOM is ready
+document.addEventListener("DOMContentLoaded", initializeHeroSlideshow)

@@ -201,19 +201,10 @@ body {
   align-items: center;
 }
 
-.hero-video-container {
-  position: relative;
-  width: 100%;
-  max-width: 550px;
-}
-
+/* Removed .hero-video-container and .hero-image styles as they are replaced */
+.hero-video-container,
 .hero-image {
-  width: 100%;
-  height: 450px;
-  object-fit: cover;
-  border-radius: 24px;
-  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.4), 0 8px 32px rgba(26, 125, 68, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: none;
 }
 
 .hero-title {
@@ -655,6 +646,11 @@ body {
     text-align: center; /* Center the logo image */
   }
 
+  .logo-image {
+    /* Added: Ensure logo image is centered within its container */
+    margin: 0 auto;
+  }
+
   .nav-menu {
     display: none;
   }
@@ -670,16 +666,13 @@ body {
   .hero-content {
     grid-template-columns: 1fr;
     gap: 4rem;
-    text-align: center;
+    text-align: center; /* Centered text in hero section */
     padding-top: 120px;
   }
 
   .hero-text {
+    /* Added: Ensure hero text is centered */
     text-align: center;
-  }
-
-  .hero-title {
-    font-size: 3rem;
   }
 
   .counter {
@@ -705,19 +698,28 @@ body {
   .contact-content {
     grid-template-columns: 1fr;
     gap: 3rem;
-    text-align: center;
+    text-align: center; /* Centered content in about and contact sections */
   }
 
   .about-text {
     padding-right: 0;
+    text-align: center; /* Added: Ensure about text is centered */
   }
 
   .about-text .section-title {
     text-align: center;
   }
 
+  .about-features {
+    justify-content: center; /* Center feature items */
+  }
+
   .contact-info {
     text-align: center;
+  }
+
+  .contact-form {
+    text-align: center; /* Center form elements like the button */
   }
 
   .left-align {
@@ -728,6 +730,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
   }
 
   .footer-content {
@@ -737,7 +740,7 @@ body {
   }
 
   .footer-links {
-    justify-content: center;
+    justify-content: center; /* Center footer links */
   }
 
   .footer-social {
@@ -776,6 +779,14 @@ body {
     flex-direction: column;
     gap: 1rem;
   }
+
+  .process-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .logo-image {
+    transform: scale(2);
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -799,6 +810,14 @@ body {
     font-size: 0.8rem;
     top: 10px;
     right: 10px;
+  }
+
+  .process-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .logo-image {
+    transform: scale(1.5);
   }
 }
 
@@ -836,6 +855,10 @@ body {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   cursor: pointer;
+}
+
+.portfolio-card[data-project="brand-identity"] .project-image {
+  object-fit: cover;
 }
 
 .portfolio-card:hover {
@@ -939,14 +962,27 @@ body {
   line-height: 1.7;
   margin-bottom: 1.5rem;
   font-size: 1.05rem;
-  font-weight: 400;
 }
 
 .portfolio-tags {
   display: flex;
   gap: 0.75rem;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* Default wrapping */
   margin-top: 1rem;
+}
+
+/* New class for no-wrap tags */
+.portfolio-tags.no-wrap {
+  flex-wrap: nowrap; /* Force no wrapping */
+  overflow-x: auto; /* Allow horizontal scrolling if content overflows */
+  -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+/* For Webkit browsers (Chrome, Safari) */
+.portfolio-tags.no-wrap::-webkit-scrollbar {
+  display: none;
 }
 
 .tag {
@@ -958,6 +994,7 @@ body {
   font-weight: 500;
   border: 1px solid rgba(26, 125, 68, 0.25);
   letter-spacing: -0.01em;
+  flex-shrink: 0; /* Prevent tags from shrinking */
 }
 
 /* Collaborations Section */
@@ -1324,6 +1361,13 @@ body {
   object-position: center;
 }
 
+/* Nieuwe stijl voor verticale afbeeldingen in de modal */
+.modal-image.is-vertical {
+  object-fit: contain; /* Zorgt ervoor dat de hele afbeelding zichtbaar is */
+  width: auto; /* Laat de breedte aanpassen aan de hoogte */
+  max-width: 100%; /* Zorgt ervoor dat het niet overloopt */
+}
+
 .modal-video {
   width: 100%;
   height: 100%;
@@ -1375,19 +1419,14 @@ body {
   border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.gallery-item:hover {
-  transform: scale(1.03);
+  background: rgba(0, 26, 13, 1); /* Changed background to dark green */
 }
 
 .gallery-image {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  background: rgba(0, 0, 0, 0.5);
+  object-fit: contain; /* Changed to contain to prevent cropping */
 }
 
 .gallery-video {
@@ -1514,5 +1553,84 @@ body {
   .modal-actions {
     flex-direction: column;
     gap: 1rem;
+  }
+}
+
+.gallery-item img[src*="brand-identity"] {
+  object-fit: contain; /* Changed back to contain */
+}
+
+/* Nieuwe stijlen voor de hero-mockups */
+.hero-mockup-slideshow {
+  position: relative;
+  width: 100%;
+  max-width: 550px; /* Max breedte voor de slideshow container */
+  height: 450px; /* Hoogte van de slideshow container */
+  border-radius: 24px;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.4), 0 8px 32px rgba(26, 125, 68, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.6); /* Donkere achtergrond voor media */
+}
+
+.mobile-mockup-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px; /* Breedte van de mobiele mockup */
+  height: 380px; /* Hoogte van de mobiele mockup */
+  background: #001a0d; /* Aangepaste donkergroene achtergrond voor de telefoon */
+  border-radius: 24px; /* Afgeronde hoeken voor de telefoon */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0; /* Standaard verborgen */
+  transition: opacity 0.8s ease-in-out; /* Smooth fade transition */
+}
+
+.mobile-mockup-card.active {
+  opacity: 1; /* Actieve slide is zichtbaar */
+}
+
+.mockup-content {
+  width: calc(100% - 16px); /* Inhoud iets kleiner dan de telefoon om rand te simuleren */
+  height: calc(100% - 16px);
+  border-radius: 18px; /* Afgeronde hoeken voor de inhoud */
+  overflow: hidden;
+  position: relative; /* Voor de afspeelknop */
+}
+
+.mockup-image-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Zorgt ervoor dat de afbeelding/video de ruimte vult */
+  display: block;
+}
+
+/* Responsive aanpassingen voor mockups */
+@media screen and (max-width: 768px) {
+  .hero-mockup-slideshow {
+    height: 350px; /* Pas hoogte aan voor kleinere schermen */
+  }
+  .mobile-mockup-card {
+    width: 220px; /* Iets groter op mobiel om beter zichtbaar te zijn */
+    height: 420px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .hero-mockup-slideshow {
+    height: 300px; /* Verder aanpassen voor zeer kleine schermen */
+  }
+  .mobile-mockup-card {
+    width: 180px; /* Terug naar kleinere grootte op zeer kleine schermen */
+    height: 340px;
   }
 }
