@@ -19,7 +19,7 @@ body {
 /* Mobiele aanpassing voor de achtergrondgradiënt */
 @media screen and (max-width: 768px) {
   body {
-    background-attachment: scroll; /* Laat de achtergrond meescrollen op mobiel */
+    background: #0a0a0a; /* Vaste kleur voor mobiel */
   }
 }
 
@@ -481,19 +481,6 @@ body {
 /* How We Work Section */
 .how-we-work-section {
   padding: 8rem 0;
-  background: rgba(0, 26, 13, 0.3);
-  position: relative;
-}
-
-.how-we-work-section::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(26, 125, 68, 0.05) 0%, transparent 50%, rgba(26, 125, 68, 0.05) 100%);
-  pointer-events: none;
 }
 
 .how-we-work-subtitle {
@@ -715,12 +702,6 @@ body {
     text-align: center; /* Centers content within the single column */
   }
 
-  .contact-content {
-    grid-template-columns: 1fr; /* Stack columns on mobile */
-    gap: 3rem;
-    text-align: center; /* Center the entire content block on mobile */
-  }
-
   .about-text {
     padding-right: 0;
     text-align: center; /* Added: Ensure about text is centered */
@@ -734,23 +715,81 @@ body {
     justify-content: center; /* Center feature items */
   }
 
-  .contact-info {
-    text-align: center; /* Centers text within contact-info on mobile */
-  }
-
-  .contact-form {
-    text-align: center; /* Centers form elements like the button on mobile */
-  }
-
   .left-align {
     text-align: center !important; /* Overrides left-align for mobile */
   }
 
+  /* Contact sectie responsive - verbeterde volgorde op mobiel en kleinere apparaten */
+  .contact-content {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-rows: unset !important;
+    gap: 2rem !important;
+    text-align: center !important;
+  }
+
+  .contact-info {
+    /* Dit is nu de tekstblok (titel en beschrijving) */
+    text-align: center !important; /* Center alle contact info tekst */
+    order: 1; /* Contact info tekst eerst */
+    grid-column: unset !important;
+    grid-row: unset !important;
+  }
+
+  .contact-form-container {
+    /* Dit is de container van het formulier */
+    order: 2; /* Form container tweede */
+    margin-top: 1rem;
+    grid-column: unset !important;
+    grid-row: unset !important;
+  }
+
   .contact-details {
+    /* Dit is nu een direct kind van contact-content */
+    order: 3; /* Contact details laatste */
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 1rem;
+    margin-top: 2rem !important; /* Extra ruimte boven contact details */
+    grid-column: unset !important;
+    grid-row: unset !important;
+    align-self: unset !important;
+  }
+
+  .contact-item {
+    justify-content: center !important; /* Center contact items */
+    text-align: center !important;
+  }
+
+  /* Logo centrering op mobiel - vervang bestaande nav regels */
+  .nav-container {
+    padding: 0 24px;
+    display: flex !important;
+    justify-content: center !important; /* Center de hele container */
+    align-items: center !important;
+    position: relative !important;
+  }
+
+  .nav-logo {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important; /* Perfect center positioning */
+    z-index: 1 !important;
+  }
+
+  .logo-image {
+    display: block !important;
+    margin: 0 auto !important;
+  }
+
+  .mobile-menu-toggle {
+    position: absolute !important;
+    right: 24px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    z-index: 2 !important; /* Boven logo */
   }
 
   .footer-content {
@@ -792,7 +831,7 @@ body {
   }
 
   .gallery-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
 
   .modal-actions {
@@ -838,6 +877,27 @@ body {
 
   .logo-image {
     transform: scale(1.5);
+  }
+
+  .contact-content {
+    gap: 1.5rem !important;
+    padding: 0 10px !important;
+  }
+
+  .contact-form {
+    padding: 2rem 1.5rem !important;
+  }
+
+  .nav-container {
+    padding: 0 20px !important;
+  }
+
+  .mobile-menu-toggle {
+    right: 20px !important;
+  }
+
+  .contact-details {
+    margin-top: 1.5rem !important; /* Minder ruimte op zeer kleine schermen */
   }
 }
 
@@ -1095,25 +1155,38 @@ body {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: 6rem;
-  align-items: start; /* Verticaal bovenaan uitlijnen */
+  align-items: stretch; /* Verticaal bovenaan uitlijnen */
+  grid-template-rows: auto 1fr;
   /* Verwijder max-width en margin: 0 auto; om de sectie breed te houden op desktop */
 }
 
 .contact-info {
   text-align: left; /* Tekst links uitlijnen op desktop */
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+/* Contact Title Alignment - Titel iets naar links voor perfecte uitlijning */
+.contact-info .section-title {
+  text-align: left;
+  margin-left: -0.5rem; /* Verschuif titel iets naar links */
+  margin-bottom: 2.5rem;
 }
 
 .contact-description {
   font-size: 1.25rem;
   color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 3rem;
+  margin-bottom: 3rem; /* Aangepast van 3rem */
   line-height: 1.8;
   font-weight: 400;
   letter-spacing: -0.01em;
 }
 
 .contact-details {
-  margin-top: 3rem;
+  margin-top: 3rem; /* Aangepast van 3rem */
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+  align-self: end;
 }
 
 .contact-item {
@@ -1381,6 +1454,13 @@ body {
   max-width: 100%; /* Zorgt ervoor dat het niet overloopt */
 }
 
+/* Specifieke styling voor Nuurfades project - kleinere afbeelding in modal */
+.modal-image.is-vertical.nuurfades-image {
+  max-width: 60%; /* Maak de Nuurfades afbeelding kleiner */
+  height: auto;
+  max-height: 80%; /* Beperk ook de hoogte */
+}
+
 .modal-video {
   width: 100%;
   height: 100%;
@@ -1567,6 +1647,12 @@ body {
     flex-direction: column;
     gap: 1rem;
   }
+
+  /* Mobile responsive voor contact titel */
+  .contact-info .section-title {
+    text-align: center !important;
+    margin-left: 0 !important; /* Reset op mobiel */
+  }
 }
 
 .gallery-item img[src*="brand-identity"] {
@@ -1636,6 +1722,12 @@ body {
     width: 220px; /* Iets groter op mobiel om beter zichtbaar te zijn */
     height: 420px;
   }
+
+  /* Mobile responsive voor contact titel */
+  .contact-info .section-title {
+    text-align: center !important;
+    margin-left: 0 !important; /* Reset op mobiel */
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -1645,5 +1737,231 @@ body {
   .mobile-mockup-card {
     width: 180px; /* Terug naar kleinere grootte op zeer kleine schermen */
     height: 340px;
+  }
+}
+
+/* In-Form Success Animation Styles */
+.contact-form-container {
+  position: relative;
+  min-height: 400px; /* Zorgt ervoor dat de container niet springt */
+  grid-column: 2 / 3;
+  grid-row: 1 / 3;
+}
+
+.contact-form {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-success-message {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(26, 125, 68, 0.3);
+  border-radius: 24px;
+  padding: 3rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.form-success-message::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(26, 125, 68, 0.05), transparent);
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.success-checkmark {
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.checkmark {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 3;
+  stroke: #1a7d44;
+  stroke-miterlimit: 10;
+  margin: 0 auto;
+  box-shadow: inset 0px 0px 0px #1a7d44;
+  filter: drop-shadow(0 8px 16px rgba(26, 125, 68, 0.3));
+}
+
+.checkmark-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 3;
+  stroke-miterlimit: 10;
+  stroke: #1a7d44;
+  fill: rgba(26, 125, 68, 0.1);
+  animation: none;
+}
+
+.checkmark-check {
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke-width: 3;
+  stroke-miterlimit: 10;
+  stroke: #1a7d44;
+  fill: none;
+  animation: none;
+}
+
+.checkmark.animate .checkmark-circle {
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark.animate .checkmark-check {
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.success-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+  position: relative;
+  z-index: 2;
+}
+
+.success-text {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+  font-weight: 400;
+  position: relative;
+  z-index: 2;
+}
+
+.success-reset-btn {
+  background: linear-gradient(135deg, #1a7d44 0%, #2d8f57 100%);
+  color: #ffffff;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  letter-spacing: -0.01em;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 2;
+}
+
+.success-reset-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(26, 125, 68, 0.3);
+  background: linear-gradient(135deg, #2d8f57 0%, #1a7d44 100%);
+}
+
+.success-reset-btn:active {
+  transform: translateY(0);
+}
+
+/* Loading button styles */
+.btn-loader {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-loader i {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Mobile responsive */
+@media screen and (max-width: 768px) {
+  .form-success-message {
+    padding: 2.5rem 2rem;
+  }
+
+  .success-title {
+    font-size: 1.625rem;
+  }
+
+  .checkmark {
+    width: 80px;
+    height: 80px;
+  }
+
+  .contact-form-container {
+    min-height: 350px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .form-success-message {
+    padding: 2rem 1.5rem;
+  }
+
+  .success-title {
+    font-size: 1.5rem;
+  }
+
+  .success-text {
+    font-size: 1rem;
+  }
+
+  .checkmark {
+    width: 70px;
+    height: 70px;
+  }
+
+  .contact-form-container {
+    min-height: 320px;
+  }
+}
+
+/* Pulse animation for extra flair */
+.checkmark.animate {
+  animation: pulse-glow 2s ease-in-out infinite 1.2s;
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 8px 16px rgba(26, 125, 68, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 8px 24px rgba(26, 125, 68, 0.6));
   }
 }

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BarakahBoost - Korte content, grote impact!</title>
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="form-styles.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -13,8 +14,8 @@
 <nav class="navbar">
     <div class="nav-container">
         <div class="nav-logo">
-<img src="img/logo.png" alt="BarakahBoost Logo" class="logo-image">
-</div>
+            <img src="img/logo.png" alt="BarakahBoost Logo" class="logo-image">
+        </div>
         <div class="nav-menu">
             <a href="#hero" class="nav-link">Home</a>
             <a href="#services" class="nav-link">Diensten</a>
@@ -30,15 +31,14 @@
         <a href="#hero" class="mobile-nav-link">Home</a>
         <a href="#services" class="mobile-nav-link">Diensten</a>
         <a href="#about" class="mobile-nav-link">Over Ons</a>
-        <a href="#portfolio" class="mobile-nav-link">Contact</a>
+        <a href="#portfolio" class="mobile-nav-link">Portfolio</a>
+        <a href="#contact" class="mobile-nav-link">Contact</a>
     </div>
 </nav>
 
 <!-- Hero Section -->
 <section id="hero" class="hero">
-    <div class="hero-background">
-        <div class="hero-overlay"></div>
-    </div>
+    <div class="hero-glow"></div>
     <div class="container">
         <div class="hero-content">
             <div class="hero-text">
@@ -55,20 +55,19 @@
     </div>
 </section>
 
-    <!-- Counter/KPI Section -->
-  <section id="stats" class="stats-section">
-      <div class="container">
-          <div class="stats-content">
-              <h2 class="stats-title">Verantwoordelijk voor meer dan</h2>
-              <div class="counter-container">
-                  <span id="counter" class="counter">0</span>
-                  <div class="counter-text">weergaven</div>
-              </div>
-              <p class="stats-subtitle">Powered by social media campagnes.</p>
-          </div>
-      </div>
-  </section>
-
+<!-- Counter/KPI Section -->
+<section id="stats" class="stats-section">
+    <div class="container">
+        <div class="stats-content">
+            <h2 class="stats-title">Verantwoordelijk voor meer dan</h2>
+            <div class="counter-container">
+                <span id="counter" class="counter">0</span>
+                <div class="counter-text">weergaven</div>
+            </div>
+            <p class="stats-subtitle">Powered by social media campagnes.</p>
+        </div>
+    </div>
+</section>
 
 <!-- Services Section -->
 <section id="services" class="services-section">
@@ -149,7 +148,7 @@
                 <a href="#contact" class="cta-button-secondary">Vraag je offerte aan</a>
             </div>
             <div class="about-image">
-                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="BarakahBoost Team" class="team-image">
+                <img src="img/brainstormen.png" alt="BarakahBoost Team" class="team-image">
             </div>
         </div>
     </div>
@@ -157,47 +156,46 @@
 
 <!-- How We Work Section -->
 <section id="how-we-work" class="how-we-work-section">
-<div class="container">
-    <h2 class="section-title">Hoe wij te werk gaan</h2>
-    <p class="how-we-work-subtitle">Van idee tot viral content in 4 eenvoudige stappen</p>
-    <div class="process-grid">
-        <div class="process-step" data-step="1">
-            <div class="step-number">01</div>
-            <div class="step-icon">
-                <i class="fas fa-lightbulb"></i>
+    <div class="container">
+        <h2 class="section-title">Hoe wij te werk gaan</h2>
+        <p class="how-we-work-subtitle">Van idee tot viral content in 4 eenvoudige stappen</p>
+        <div class="process-grid">
+            <div class="process-step" data-step="1">
+                <div class="step-number">01</div>
+                <div class="step-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3>Bedenken</h3>
+                <p>Wij bedenken een succesvol idee dat perfect aansluit bij jouw merk en doelgroep.</p>
             </div>
-            <h3>Bedenken</h3>
-            <p>Wij bedenken een succesvol idee dat perfect aansluit bij jouw merk en doelgroep.</p>
-        </div>
-        
-        <div class="process-step" data-step="2">
-            <div class="step-number">02</div>
-            <div class="step-icon">
-                <i class="fas fa-video"></i>
+            
+            <div class="process-step" data-step="2">
+                <div class="step-number">02</div>
+                <div class="step-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <h3>Filmen</h3>
+                <p>Wij filmen jouw shortform video met professionele apparatuur en creatieve visie.</p>
             </div>
-            <h3>Filmen</h3>
-            <p>Wij filmen jouw shortform video met professionele apparatuur en creatieve visie.</p>
-        </div>
-        
-        <div class="process-step" data-step="3">
-            <div class="step-number">03</div>
-            <div class="step-icon">
-                <i class="fas fa-cut"></i>
+            
+            <div class="process-step" data-step="3">
+                <div class="step-number">03</div>
+                <div class="step-icon">
+                    <i class="fas fa-cut"></i>
+                </div>
+                <h3>Editen</h3>
+                <p>Wij editen de video tot perfectie met moderne effecten en pakkende storytelling.</p>
             </div>
-            <h3>Editen</h3>
-            <p>Wij editen de video tot perfectie met moderne effecten en pakkende storytelling.</p>
-        </div>
-        
-        <div class="process-step" data-step="4">
-            <div class="step-number">04</div>
-            <div class="step-icon">
-                <i class="fas fa-users"></i>
+            
+            <div class="process-step" data-step="4">
+                <div class="step-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Beheren</h3>
+                <p>Wij beheren jouw social media account en zorgen voor maximale reach en engagement.</p>
             </div>
-            <h3>Beheren</h3>
-            <p>Wij beheren jouw social media account en zorgen voor maximale reach en engagement.</p>
         </div>
     </div>
-</div>
 </section>
 
 <!-- Portfolio Section -->
@@ -228,7 +226,7 @@
             
             <div class="portfolio-card" data-project="brand-identity">
                 <div class="portfolio-image">
-                    <img src="/img/nuurfades/e89b3b7a-a0da-461b-9dd8-69452b3c8713_rw_1200.jpg" alt="Brand Identity Design" class="project-image">
+                    <img src="img/nuurfades/e89b3b7a-a0da-461b-9dd8-69452b3c8713_rw_1200.jpg" alt="Brand Identity Design" class="project-image">
                     <div class="portfolio-overlay">
                         <div class="portfolio-info">
                             <i class="fas fa-palette"></i>
@@ -238,7 +236,7 @@
                 </div>
                 <div class="portfolio-content">
                     <h3>Nuurfades - Fotografie en Editwerk</h3>
-                    <p> Beeld en bewerking voor Nuurfades, met oog voor stijl, detail en een persoonlijke sfeer.</p>
+                    <p>Beeld en bewerking voor Nuurfades, met oog voor stijl, detail en een persoonlijke sfeer.</p>
                     <div class="portfolio-tags">
                         <span class="tag">Portretfotografie</span>
                         <span class="tag">Fotobewerking</span>
@@ -249,7 +247,7 @@
             
             <div class="portfolio-card" data-project="ecommerce-platform">
                 <div class="portfolio-image">
-                    <img src="/img/liv zorg/main-foto.jpg" alt="Livzorg - Foto" class="project-image">
+                    <img src="img/liv zorg/main-foto.jpg" alt="Livzorg - Foto" class="project-image">
                     <div class="portfolio-overlay">
                         <div class="portfolio-info">
                             <i class="fas fa-shopping-cart"></i>
@@ -266,9 +264,6 @@
                     </div>
                 </div>
             </div>
-       
-          
-  
         </div>
     </div>
 </section>
@@ -280,7 +275,7 @@
             <i class="fas fa-times"></i>
         </button>
         <div class="modal-header">
-            <img id="modal-main-image" class="modal-image" src="/placeholder.svg" alt="">
+            <img id="modal-main-image" class="modal-image" src="/placeholder.svg?height=400&width=800" alt="">
             <video id="modal-main-video" class="modal-video" style="display: none;" controls>
                 <source src="/placeholder.svg" type="video/mp4">
             </video>
@@ -288,7 +283,6 @@
         <div class="modal-body">
             <h2 id="modal-title" class="modal-title"></h2>
             <p id="modal-description" class="modal-description"></p>
-            
             
             <div id="modal-gallery" class="modal-gallery">
                 <h3 class="gallery-title">Project Galerij</h3>
@@ -343,45 +337,94 @@
 <section id="contact" class="contact-section">
     <div class="container">
         <div class="contact-content">
+            <!-- Dit blok bevat nu alleen de titel en beschrijving -->
             <div class="contact-info">
-                <h2 class="section-title">Klaar voor jouw volgende succes?</h2>
+                <h2 class="section-title contact-title">Laten we jouw project bespreken</h2>
                 <p class="contact-description">
                     Laat ons weten wat jouw doelen zijn en ontdek hoe wij jouw merk kunnen laten groeien
                     met krachtige content en strategische campagnes.
                 </p>
-                <div class="contact-details">
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>info@barakahboost.nl</span>
+            </div>
+            
+            <div class="contact-form-container">
+                <!-- WEB3FORMS CONTACT FORM -->
+                <form action="https://api.web3forms.com/submit" method="POST" class="contact-form" id="contact-form">
+                    <!-- Web3Forms Access Key -->
+                    <input type="hidden" name="access_key" value="82f5260c-f8c9-47c4-b0d9-b9d3f7c3dd39">
+                    
+                    <!-- Subject line voor de email -->
+                    <input type="hidden" name="subject" value="Nieuwe contactaanvraag van BarakahBoost website">
+                    
+                    <!-- From name -->
+                    <input type="hidden" name="from_name" value="BarakahBoost Contact Form">
+                    
+                    <!-- Hidden CC field -->
+                    <input type="hidden" name="cc" value="farhan2005231@gmail.com">
+                    
+                    <!-- Honeypot anti-spam field (verborgen voor gebruikers) -->
+                    <input type="checkbox" name="botcheck" class="honeypot" style="display: none;">
+                    
+                    <!-- Naam veld -->
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Jouw naam *" required>
                     </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <span>+31  6 85546310</span>
+                    
+                    <!-- E-mail veld -->
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="E-mailadres *" required>
                     </div>
+                    
+                    <!-- Telefoonnummer veld (niet verplicht) -->
+                    <div class="form-group">
+                        <input type="tel" name="phone" placeholder="Telefoonnummer">
+                    </div>
+                    
+                    <!-- Bericht veld -->
+                    <div class="form-group">
+                        <textarea name="message" placeholder="Vertel ons over jouw project... *" rows="5" required></textarea>
+                    </div>
+                    
+            
+                    <!-- Hidden field voor replyto (wordt dynamisch ingevuld) -->
+                    <input type="hidden" name="replyto" id="replyto-field" value="">
+                    
+                    <!-- Submit button -->
+                    <button type="submit" class="cta-button" id="submit-btn">
+                        <span class="btn-text">Verstuur aanvraag</span>
+                        <span class="btn-loader" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i> Versturen...
+                        </span>
+                    </button>
+                </form>
+                
+                <!-- Success Message (hidden by default) -->
+                <div class="form-success-message" id="form-success" style="display: none;">
+                    <div class="success-checkmark">
+                        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                            <path class="checkmark-check" fill="none" d="m14.1 27.2l7.1 7.2 16.7-16.8"/>
+                        </svg>
+                    </div>
+                    <h3 class="success-title">Bedankt voor je aanvraag!</h3>
+                    <p class="success-text">We hebben je bericht ontvangen en nemen binnen zo snel mogelijk contact met je op om dit project te bespreken.</p>
+                    <button class="success-reset-btn" onclick="resetForm()">
+                        <i class="fas fa-plus"></i>
+                        Nieuwe aanvraag versturen
+                    </button>
                 </div>
             </div>
-            <form id="contact-form" class="contact-form" action="contact.php" method="POST">
-                <div class="form-group">
-                    <input type="text" id="name" name="name" placeholder="Jouw naam" required>
+
+            <!-- Dit blok bevat nu alleen de contactgegevens en is een direct kind van contact-content -->
+            <div class="contact-details">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>info@barakahboost.nl</span>
                 </div>
-                <div class="form-group">
-                    <input type="email" id="email" name="email" placeholder="E-mailadres" required>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+31 6 85546310</span>
                 </div>
-                <div class="form-group">
-                    <input type="tel" id="phone" name="phone" placeholder="Telefoonnummer">
-                </div>
-                <div class="form-group">
-                    <textarea id="message" name="message" placeholder="Vertel ons over jouw project..." rows="5" required></textarea>
-                </div>
-                <button type="submit" class="cta-button">Verstuur aanvraag</button>
-            </form>
-        </div>
-    </div>
-    <div id="form-success" class="form-success hidden">
-        <div class="success-message">
-            <i class="fas fa-check-circle"></i>
-            <h3>Bedankt voor je aanvraag!</h3>
-            <p>We nemen binnen 24 uur contact met je op.</p>
+            </div>
         </div>
     </div>
 </section>
@@ -391,8 +434,8 @@
     <div class="container">
         <div class="footer-content">
             <div class="footer-logo">
-<img src="img/logo.png" alt="BarakahBoost Logo" class="footer-logo-image">
-</div>
+                <img src="img/logo.png" alt="BarakahBoost Logo" class="footer-logo-image">
+            </div>
             <div class="footer-links">
                 <a href="#hero">Home</a>
                 <a href="#services">Diensten</a>
@@ -401,11 +444,11 @@
             </div>
             <div class="footer-contact">
                 <p>info@barakahboost.nl</p>
-                <p>+31  6 85546310</p>
+                <p>+31 6 85546310</p>
             </div>
             <div class="footer-social">
-                <a href="https://www.instagram.com/barakahboost.nl/" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.tiktok.com/@barakahboost.nl?lang=nl-NL" target="_blank" class="social-link"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/barakahboost.nl/" target="_blank" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@barakahboost.nl?lang=nl-NL" target="_blank" class="social-link" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
             </div>
         </div>
         <div class="footer-bottom">
@@ -415,5 +458,133 @@
 </footer>
 
 <script src="script.js"></script>
+<script>
+// Web3Forms in-form success animation functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const btnLoader = submitBtn.querySelector('.btn-loader');
+    const formSuccess = document.getElementById('form-success');
+    const checkbox = document.getElementById('send-copy-checkbox');
+    const emailField = document.querySelector('input[name="email"]');
+    const replytoField = document.getElementById('replyto-field');
+    
+    // User copy functionality
+    function updateReplyTo() {
+        if (checkbox && checkbox.checked && emailField && emailField.value) {
+            replytoField.value = emailField.value;
+        } else {
+            replytoField.value = '';
+        }
+    }
+    
+    if (checkbox) {
+        checkbox.addEventListener('change', updateReplyTo);
+    }
+    
+    if (emailField) {
+        emailField.addEventListener('input', updateReplyTo);
+    }
+    
+    // Form submission handling
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Update replyto field
+        updateReplyTo();
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        btnText.style.display = 'none';
+        btnLoader.style.display = 'inline-flex';
+        
+        try {
+            const formData = new FormData(form);
+            
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // Show success animation in form
+                showInFormSuccess();
+            } else {
+                throw new Error(result.message || 'Er is een fout opgetreden');
+            }
+        } catch (error) {
+            console.error('Form submission error:', error);
+            alert('Er is een fout opgetreden bij het versturen. Probeer het opnieuw.');
+            
+            // Reset button state on error
+            submitBtn.disabled = false;
+            btnText.style.display = 'inline';
+            btnLoader.style.display = 'none';
+        }
+    });
+});
+
+function showInFormSuccess() {
+    const form = document.getElementById('contact-form');
+    const formSuccess = document.getElementById('form-success');
+    
+    // Hide form with fade out
+    form.style.opacity = '0';
+    form.style.transform = 'translateY(-20px)';
+    
+    setTimeout(() => {
+        form.style.display = 'none';
+        formSuccess.style.display = 'block';
+        
+        // Trigger fade in animation
+        setTimeout(() => {
+            formSuccess.style.opacity = '1';
+            formSuccess.style.transform = 'translateY(0)';
+            
+            // Trigger checkmark animation
+            const checkmark = formSuccess.querySelector('.checkmark');
+            checkmark.classList.add('animate');
+        }, 50);
+    }, 300);
+}
+
+function resetForm() {
+    const form = document.getElementById('contact-form');
+    const formSuccess = document.getElementById('form-success');
+    const submitBtn = document.getElementById('submit-btn');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const btnLoader = submitBtn.querySelector('.btn-loader');
+    const checkmark = formSuccess.querySelector('.checkmark');
+    
+    // Reset form
+    form.reset();
+    
+    // Reset button state
+    submitBtn.disabled = false;
+    btnText.style.display = 'inline';
+    btnLoader.style.display = 'none';
+    
+    // Reset checkmark animation
+    checkmark.classList.remove('animate');
+    
+    // Hide success message with fade out
+    formSuccess.style.opacity = '0';
+    formSuccess.style.transform = 'translateY(20px)';
+    
+    setTimeout(() => {
+        formSuccess.style.display = 'none';
+        form.style.display = 'block';
+        
+        // Show form with fade in
+        setTimeout(() => {
+            form.style.opacity = '1';
+            form.style.transform = 'translateY(0)';
+        }, 50);
+    }, 300);
+}
+</script>
 </body>
 </html>

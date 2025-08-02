@@ -38,83 +38,243 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   })
 })
 
-// Form handling
-const contactForm = document.getElementById("contact-form")
-const formSuccess = document.getElementById("form-success")
-const successMessageTitle = formSuccess.querySelector("h3")
-const successMessageParagraph = formSuccess.querySelector("p")
-const successMessageIcon = formSuccess.querySelector("i")
+// Enhanced Form Validation and Handling
+class ContactFormHandler {
+  constructor() {
+    this.form = document.getElementById("contact-form")
+    this.submitBtn = document.getElementById("submit-btn")
+    this.btnText = this.submitBtn.querySelector(".btn-text")
+    this.btnLoader = this.submitBtn.querySelector(".btn-loader")
+    this.successMessage = document.getElementById("form-success")
+    this.errorMessage = document.getElementById("form-error")
+    this.errorText = document.getElementById("error-text")
 
-contactForm.addEventListener("submit", async function (e) {
-  e.preventDefault() // Prevent default form submission (page reload)
-
-  const formData = new FormData(this)
-  const name = formData.get("name")
-  const email = formData.get("email")
-  const message = formData.get("message")
-
-  // Basic validation
-  if (!name || !email || !message) {
-    alert("Vul alle verplichte velden in.")
-    return
+    this.init()
   }
 
-  // Email validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  if (!emailRegex.test(email)) {
-    alert("Voer een geldig e-mailadres in.")
-    return
+  init() {
+    if (!this.form) return
+
+    // Add real-time validation
+    this.addRealTimeValidation()
+
+    // Handle form submission
+    this.form.addEventListener("submit", (e) => this.handleSubmit(e))
   }
 
-  const submitButton = this.querySelector('button[type="submit"]')
-  const originalButtonText = submitButton.textContent
+  addRealTimeValidation() {
+    const inputs = this.form.querySelectorAll("input, textarea")
 
-  // Show loading state
-  submitButton.textContent = "Versturen..."
-  submitButton.disabled = true
-  submitButton.classList.add("opacity-50", "cursor-not-allowed") // Add Tailwind classes for disabled state
+    inputs.forEach((input) => {
+      // Validate on blur (when user leaves field)
+      input.addEventListener("blur", () => this.validateField(input))
 
-  try {
-    const response = await fetch(this.action, {
-      method: this.method,
-      body: formData,
-      headers: {
-        Accept: "application/json", // Indicate that we expect a JSON response
-      },
+      // Clear errors on input
+      input.addEventListener("input", () => this.clearFieldError(input))
+    })
+  }
+
+  validateField(field) {
+    const value = field.value.trim()
+    const fieldName = field.name
+    let isValid = true
+    let errorMessage = ""
+
+    // Skip honeypot field
+    if (fieldName === "website") return true
+
+    switch (fieldName) {
+      case "name":
+        if (!value) {
+          errorMessage = "Naam is verplicht"
+          isValid = false
+        } else if (value.length < 2) {
+          errorMessage = "Naam moet minimaal 2 karakters bevatten"
+          isValid = false
+        } else if (!/^[a-zA-ZÀ-ÿ\s'-]+$/.test(value)) {
+          errorMessage = "Naam mag alleen letters, spaties, apostrofes en koppeltekens bevatten"
+          isValid = false
+        }
+        break
+
+      case "email":
+        if (!value) {
+          errorMessage = "E-mailadres is verplicht"
+          isValid = false
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          errorMessage = "Voer een geldig e-mailadres in"
+          isValid = false
+        }
+        break
+
+      case "phone":
+        if (value && !/^[+]?[0-9\s\-$$$$]{8,}$/.test(value)) {
+          errorMessage = "Voer een geldig telefoonnummer in"
+          isValid = false
+        }
+        break
+
+      case "message":
+        if (!value) {
+          errorMessage = "Bericht is verplicht"
+          isValid = false
+        } else if (value.length < 10) {
+          errorMessage = "Bericht moet minimaal 10 karakters bevatten"
+          isValid = false
+        } else if (value.length > 2000) {
+          errorMessage = "Bericht mag maximaal 2000 karakters bevatten"
+          isValid = false
+        }
+        break
+    }
+
+    this.showFieldError(field, errorMessage)
+    return isValid
+  }
+
+  showFieldError(field, message) {
+    const errorElement = document.getElementById(`${field.name}-error`)
+    if (errorElement) {
+      errorElement.textContent = message
+      errorElement.style.display = message ? "block" : "none"
+    }
+
+    if (message) {
+      field.classList.add("error")
+      field.setAttribute("aria-invalid", "true")
+    } else {
+      field.classList.remove("error")
+      field.setAttribute("aria-invalid", "false")
+    }
+  }
+
+  clearFieldError(field) {
+    this.showFieldError(field, "")
+  }
+
+  validateForm() {
+    const requiredFields = this.form.querySelectorAll("[required]")
+    let isValid = true
+
+    requiredFields.forEach((field) => {
+      if (!this.validateField(field)) {
+        isValid = false
+      }
     })
 
-    const result = await response.json()
-
-    if (result.status === "success") {
-      successMessageTitle.textContent = "Bedankt voor je aanvraag!"
-      successMessageParagraph.textContent = result.message
-      successMessageIcon.className = "fas fa-check-circle" // Green checkmark
-      formSuccess.classList.remove("hidden")
-      formSuccess.style.background = "rgba(26, 125, 68, 0.95)" // Green background for success
-      contactForm.reset() // Clear the form
-    } else {
-      successMessageTitle.textContent = "Oeps, er ging iets mis!"
-      successMessageParagraph.textContent = result.message || "Er is een onbekende fout opgetreden."
-      successMessageIcon.className = "fas fa-exclamation-circle" // Red exclamation mark
-      formSuccess.classList.remove("hidden")
-      formSuccess.style.background = "rgba(220, 38, 38, 0.95)" // Red background for error
+    // Check honeypot
+    const honeypot = this.form.querySelector('input[name="website"]')
+    if (honeypot && honeypot.value.trim() !== "") {
+      // Likely spam - fail silently
+      return false
     }
-  } catch (error) {
-    console.error("Fout bij verzenden formulier:", error)
-    successMessageTitle.textContent = "Netwerkfout!"
-    successMessageParagraph.textContent = "Kon geen verbinding maken met de server. Probeer het later opnieuw."
-    successMessageIcon.className = "fas fa-exclamation-triangle" // Yellow triangle
-    formSuccess.classList.remove("hidden")
-    formSuccess.style.background = "rgba(250, 170, 20, 0.95)" // Orange background for network error
-  } finally {
-    // Hide success/error message after a few seconds
-    setTimeout(() => {
-      formSuccess.classList.add("hidden")
-      submitButton.textContent = originalButtonText
-      submitButton.disabled = false
-      submitButton.classList.remove("opacity-50", "cursor-not-allowed")
-    }, 5000)
+
+    return isValid
   }
+
+  async handleSubmit(e) {
+    e.preventDefault()
+
+    // Validate form
+    if (!this.validateForm()) {
+      this.showError("Controleer de ingevoerde gegevens en probeer opnieuw.")
+      return
+    }
+
+    // Show loading state
+    this.setLoadingState(true)
+    this.hideMessages()
+
+    try {
+      const formData = new FormData(this.form)
+
+      const response = await fetch(this.form.action, {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      })
+
+      const result = await response.json()
+
+      if (result.status === "success") {
+        this.showSuccess(result.message)
+        this.form.reset()
+        this.clearAllErrors()
+      } else {
+        this.showError(result.message || "Er is een onbekende fout opgetreden.")
+      }
+    } catch (error) {
+      console.error("Form submission error:", error)
+      this.showError(
+        "Netwerkfout: Kon geen verbinding maken met de server. Controleer je internetverbinding en probeer het opnieuw.",
+      )
+    } finally {
+      this.setLoadingState(false)
+    }
+  }
+
+  setLoadingState(loading) {
+    if (loading) {
+      this.submitBtn.disabled = true
+      this.btnText.style.display = "none"
+      this.btnLoader.style.display = "inline-flex"
+      this.submitBtn.classList.add("loading")
+    } else {
+      this.submitBtn.disabled = false
+      this.btnText.style.display = "inline"
+      this.btnLoader.style.display = "none"
+      this.submitBtn.classList.remove("loading")
+    }
+  }
+
+  showSuccess(message) {
+    this.successMessage.querySelector("p").textContent = message
+    this.successMessage.classList.remove("hidden")
+    this.successMessage.scrollIntoView({ behavior: "smooth", block: "center" })
+
+    // Auto-hide after 8 seconds
+    setTimeout(() => {
+      this.successMessage.classList.add("hidden")
+    }, 8000)
+  }
+
+  showError(message) {
+    this.errorText.textContent = message
+    this.errorMessage.classList.remove("hidden")
+    this.errorMessage.scrollIntoView({ behavior: "smooth", block: "center" })
+
+    // Auto-hide after 10 seconds
+    setTimeout(() => {
+      this.errorMessage.classList.add("hidden")
+    }, 10000)
+  }
+
+  hideMessages() {
+    this.successMessage.classList.add("hidden")
+    this.errorMessage.classList.add("hidden")
+  }
+
+  clearAllErrors() {
+    const errorElements = this.form.querySelectorAll(".error-message")
+    const inputElements = this.form.querySelectorAll("input, textarea")
+
+    errorElements.forEach((el) => {
+      el.textContent = ""
+      el.style.display = "none"
+    })
+
+    inputElements.forEach((el) => {
+      el.classList.remove("error")
+      el.setAttribute("aria-invalid", "false")
+    })
+  }
+}
+
+// Initialize form handler when DOM is loaded
+document.addEventListener("DOMContentLoaded", () => {
+  new ContactFormHandler()
 })
 
 // Navbar background on scroll
@@ -516,10 +676,10 @@ const heroSlideshowItems = [
     src: "img/nuurfades/e89b3b7a-a0da-461b-9dd8-69452b3c8713_rw_1200.jpg",
     alt: "Nuurfades Fotografie Mockup",
   },
-  { type: "image", src: "img/liv zorg/main-foto.jpg", alt: "Livzorg Fotografie Mockup" },
+  { type: "image", src: "img/liv zorg/verticale-foto.jpg", alt: "Livzorg Fotografie Mockup" },
 ]
 let currentHeroSlide = 0
-const heroSlideIntervalTime = 10000 // Change slide every 10 seconds (10000 ms)
+const heroSlideIntervalTime = 3000 // Change slide every 10 seconds (10000 ms)
 
 function createHeroSlideElement(item) {
   const slideDiv = document.createElement("div")

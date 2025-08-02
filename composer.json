@@ -1,0 +1,18 @@
+{
+    "name": "farha/barakahboost",
+    "autoload": {
+        "psr-4": {
+            "Farha\\Barakahboost\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Wavezy11",
+            "email": "wavezy.dd@gmail.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.10",
+        "vlucas/phpdotenv": "^5.6"
+    }
+}

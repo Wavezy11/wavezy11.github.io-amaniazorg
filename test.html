@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contactformulier</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f4f4f4;
+      padding: 2rem;
+    }
+
+    form {
+      max-width: 500px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    input, textarea, button {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <form action="https://formsubmit.co/farhan2005231@gmail.com" method="POST">
+    <!-- Honeypot veld tegen spam -->
+    <input type="text" name="_honey" class="hidden">
+
+    <!-- CAPTCHA uitzetten (optioneel) -->
+    <input type="hidden" name="_captcha" value="false">
+
+    <!-- Doorsturen na succes -->
+    <input type="hidden" name="_next" value="https://jouwsite.nl/bedankt.html">
+
+    <!-- Formuliervelden -->
+    <h2>Neem contact op</h2>
+    <input type="text" name="naam" placeholder="Je naam" required>
+    <input type="email" name="email" placeholder="Je e-mailadres" required>
+    <input type="text" name="onderwerp" placeholder="Onderwerp" required>
+    <textarea name="bericht" placeholder="Typ hier je bericht..." rows="6" required></textarea>
+
+    <button type="submit">Verstuur</button>
+  </form>
+
+</body>
+</html>
