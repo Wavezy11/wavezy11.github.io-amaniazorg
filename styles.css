@@ -19,7 +19,8 @@ body {
 /* Mobiele aanpassing voor de achtergrondgradiënt */
 @media screen and (max-width: 768px) {
   body {
-    background: #0a0a0a; /* Vaste kleur voor mobiel */
+  background: linear-gradient(180deg, #0a0a0a 0%, #001a0d 25%, #003315 50%, #001a0d 75%, #0a0a0a 100%);
+    background-attachment: fixed;
   }
 }
 
@@ -239,6 +240,36 @@ body {
 .cta-button {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: transparent;
+  color: #1a7d44;
+  padding: 1rem 1.5rem;
+  border: 2px solid #1a7d44;
+  border-radius: 60px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: -0.01em;
+  max-width: 400px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 0; /* Set to 0 or adjust as needed */
+  margin-top: -8rem; /* Add negative margin to move it up */
+  position: relative;
+}
+.cta-button:hover {
+  background: #1a7d44;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(26, 125, 68, 0.25);
+}
+
+
+.contact-button {
+  display: inline-flex;
+  align-items: center;
   gap: 0.75rem;
   background: linear-gradient(135deg, #1a7d44 0%, #2d8f57 100%);
   color: #ffffff;
@@ -253,7 +284,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.cta-button:hover {
+.contact-button:hover {
   transform: translateY(-4px);
   box-shadow: 0 24px 60px rgba(26, 125, 68, 0.35);
   background: linear-gradient(135deg, #2d8f57 0%, #1a7d44 100%);
@@ -469,6 +500,36 @@ body {
   box-shadow: 0 16px 40px rgba(26, 125, 68, 0.25);
 }
 
+
+.over-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center; /* Center the content like .cta-button */
+  gap: 0.75rem;
+  background: transparent;
+  color: #1a7d44;
+  padding: 1rem 1.5rem; /* Adjust padding to match .cta-button */
+  border: 2px solid #1a7d44;
+  border-radius: 60px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: -0.01em;
+  max-width: 400px; /* Set the same max-width as .cta-button */
+  width: 100%; /* Allow it to take full width up to max-width */
+  box-sizing: border-box; /* Ensure padding and border are included in width */
+
+  position: relative;
+}
+.over-button:hover {
+  background: #1a7d44;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(26, 125, 68, 0.25);
+}
+
+
 .team-image {
   width: 100%;
   height: 450px;
@@ -677,6 +738,11 @@ body {
     text-align: center;
   }
 
+  .cta-button {
+    margin-top: 1rem;
+    position: static;
+  }
+
   .counter {
     font-size: clamp(3rem, 12vw, 5rem);
   }
@@ -748,6 +814,7 @@ body {
     /* Dit is nu een direct kind van contact-content */
     order: 3; /* Contact details laatste */
     display: flex;
+    position: static;
     flex-direction: column;
     align-items: center !important;
     justify-content: center !important;
@@ -1666,6 +1733,7 @@ body {
   max-width: 550px; /* Max breedte voor de slideshow container */
   height: 450px; /* Hoogte van de slideshow container */
   border-radius: 24px;
+  top: 55px;
   box-shadow: 0 32px 80px rgba(0, 0, 0, 0.4), 0 8px 32px rgba(26, 125, 68, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
@@ -1717,6 +1785,7 @@ body {
 @media screen and (max-width: 768px) {
   .hero-mockup-slideshow {
     height: 350px; /* Pas hoogte aan voor kleinere schermen */
+    top: 20px;
   }
   .mobile-mockup-card {
     width: 220px; /* Iets groter op mobiel om beter zichtbaar te zijn */
@@ -1728,6 +1797,13 @@ body {
     text-align: center !important;
     margin-left: 0 !important; /* Reset op mobiel */
   }
+  .hero-content {
+    padding-top: 15px !important; /* Verminder padding voor kleinere schermen */
+  }
+  .navbar {
+    padding: 40px 20px !important; /* Verminder padding voor kleinere schermen */
+  }
+ 
 }
 
 @media screen and (max-width: 480px) {
