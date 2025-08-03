@@ -790,7 +790,6 @@ body {
   .feature i {
     color: #1a7d44;
     margin-right: 0.75rem; /* Aangepast: Iets minder marge voor het icoon */
-    font-size: 1.25rem;
     flex-shrink: 0; /* Zorg ervoor dat het icoon niet krimpt */
   }
 
@@ -800,6 +799,7 @@ body {
     min-width: 0; /* Zorg ervoor dat de tekst kan krimpen tot onder de inhoudsbreedte */
     word-break: break-word; /* Zorg ervoor dat lange woorden afbreken */
     line-height: 1.5; /* Consistente regelhoogte voor teruggelopen tekst */
+    text-align: left; /* Expliciet links uitlijnen voor de tekst */
   }
 
   .left-align {
