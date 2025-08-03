@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: "Outfit", sans-serif; /* Aangepast lettertype */
   line-height: 1.6;
   color: #ffffff;
   background: linear-gradient(180deg, #0a0a0a 0%, #001a0d 25%, #003315 50%, #001a0d 75%, #0a0a0a 100%);
@@ -19,7 +19,7 @@ body {
 /* Mobiele aanpassing voor de achtergrondgradiënt */
 @media screen and (max-width: 768px) {
   body {
-background: linear-gradient(to bottom, #001a0d 0%, #003315 100%);
+    background: linear-gradient(to bottom, #001a0d 0%, #003315 100%);
     background-attachment: fixed;
   }
 }
@@ -266,7 +266,6 @@ background: linear-gradient(to bottom, #001a0d 0%, #003315 100%);
   box-shadow: 0 16px 40px rgba(26, 125, 68, 0.25);
 }
 
-
 .contact-button {
   display: inline-flex;
   align-items: center;
@@ -500,7 +499,6 @@ background: linear-gradient(to bottom, #001a0d 0%, #003315 100%);
   box-shadow: 0 16px 40px rgba(26, 125, 68, 0.25);
 }
 
-
 .over-button {
   display: inline-flex;
   align-items: center;
@@ -528,7 +526,6 @@ background: linear-gradient(to bottom, #001a0d 0%, #003315 100%);
   transform: translateY(-2px);
   box-shadow: 0 16px 40px rgba(26, 125, 68, 0.25);
 }
-
 
 .team-image {
   width: 100%;
@@ -778,7 +775,31 @@ background: linear-gradient(to bottom, #001a0d 0%, #003315 100%);
   }
 
   .about-features {
-    justify-content: center; /* Center feature items */
+    /* Added: Ensure features are left-aligned on mobile */
+    text-align: left;
+  }
+
+  .feature {
+    display: flex;
+    align-items: flex-start; /* Aangepast: Lijn items bovenaan uit om inspringen bij tekstterugloop te voorkomen */
+    margin-bottom: 1.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.05rem;
+  }
+
+  .feature i {
+    color: #1a7d44;
+    margin-right: 0.75rem; /* Aangepast: Iets minder marge voor het icoon */
+    font-size: 1.25rem;
+    flex-shrink: 0; /* Zorg ervoor dat het icoon niet krimpt */
+  }
+
+  .feature span {
+    flex-grow: 1; /* Laat de tekst de beschikbare ruimte innemen */
+    flex-shrink: 1; /* Laat de tekst krimpen indien nodig */
+    min-width: 0; /* Zorg ervoor dat de tekst kan krimpen tot onder de inhoudsbreedte */
+    word-break: break-word; /* Zorg ervoor dat lange woorden afbreken */
+    line-height: 1.5; /* Consistente regelhoogte voor teruggelopen tekst */
   }
 
   .left-align {
@@ -1803,7 +1824,6 @@ background: linear-gradient(to bottom, #001a0d 0%, #003315 100%);
   .navbar {
     padding: 40px 20px !important; /* Verminder padding voor kleinere schermen */
   }
- 
 }
 
 @media screen and (max-width: 480px) {
