@@ -19,7 +19,7 @@ body {
 /* Mobiele aanpassing voor de achtergrondgradiënt */
 @media screen and (max-width: 768px) {
   body {
-  background: linear-gradient(180deg, #0a0a0a 0%, #001a0d 25%, #003315 50%, #001a0d 75%, #0a0a0a 100%);
+background: linear-gradient(to bottom, #001a0d 0%, #003315 100%);
     background-attachment: fixed;
   }
 }
