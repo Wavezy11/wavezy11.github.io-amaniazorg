@@ -616,7 +616,7 @@ processSteps.forEach((step, index) => {
 
 // Counter animation for stats section
 const counterElement = document.getElementById("counter")
-const targetValue = 20000000000 // 20 billion
+const targetValue = 20000000 // 20 million
 const duration = 1500 // 1.5 seconds for animation (was 3000)
 
 let animationStarted = false
