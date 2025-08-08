@@ -709,50 +709,69 @@ function initializeHeroSlideshow() {
 // Initialize Logo Carousel - PROFESSIONELE SNELHEID MET BEDRIJFSNAMEN
 function initializeLogoCarousel() {
   console.log('Initializing logo carousel...');
-  
+
   if (typeof Swiper === 'undefined') {
     console.error('Swiper is not loaded');
     return;
   }
 
   try {
-    const logoCarousel = new Swiper('.logo-carousel', {
+    const containerSelector = '.logo-carousel';
+    const logoCarousel = new Swiper(containerSelector, {
       slidesPerView: 'auto',
       spaceBetween: 0,
       loop: true,
       centeredSlides: false,
-      autoplay: {
-        delay: 0,
-        disableOnInteraction: false,
-        pauseOnMouseEnter: false,
-        reverseDirection: false,
-      },
-      speed: 8000, // Langzamere, professionele snelheid
+      speed: 8000, // professionele, langzamere snelheid
+      // voorkomen dat interacties autoplay pauzeren
       allowTouchMove: false,
+      simulateTouch: false,
+      preventClicks: true,
+      preventClicksPropagation: true,
       freeMode: {
         enabled: true,
         momentum: false,
       },
+      autoplay: {
+        delay: 0,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: false,
+        stopOnLastSlide: false,
+        waitForTransition: false,
+      },
       loopAdditionalSlides: 3,
       breakpoints: {
-        320: {
-          speed: 6000,
-        },
-        768: {
-          speed: 8000,
-        },
-        1024: {
-          speed: 10000,
-        }
+        320: { speed: 6000 },
+        768: { speed: 8000 },
+        1024: { speed: 10000 },
+      },
+    });
+
+    const container = document.querySelector(containerSelector);
+    const resume = () => {
+      try {
+        logoCarousel.autoplay.start();
+      } catch (e) {
+        console.warn('Could not resume autoplay:', e);
       }
+    };
+
+    // Herstart autoplay bij elke (aan)raak-/klik-/pointer-interactie
+    ['click', 'pointerdown', 'pointerup', 'touchstart', 'touchend', 'mouseenter', 'mouseleave'].forEach((evt) => {
+      container?.addEventListener(evt, resume, { passive: true });
+    });
+
+    // Herstart autoplay wanneer tab weer zichtbaar wordt
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') resume();
     });
 
     // Force start autoplay
     setTimeout(() => {
-      logoCarousel.autoplay.start();
-      console.log('Logo carousel autoplay started with professional speed');
-    }, 500);
-    
+      resume();
+      console.log('Logo carousel autoplay enforced');
+    }, 300);
+
     console.log('Logo carousel initialized successfully');
   } catch (error) {
     console.error('Error initializing logo carousel:', error);
