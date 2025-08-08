@@ -2249,3 +2249,11 @@ body {
     text-align: center !important;
   }
 }
+
+
+@media screen and (max-width: 768px) {
+.portfolio-card[data-project="viral-tiktok"] .portfolio-tags.no-wrap {
+flex-wrap: wrap !important;
+overflow: visible !important;
+}
+}
