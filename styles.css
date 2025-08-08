@@ -2257,3 +2257,11 @@ flex-wrap: wrap !important;
 overflow: visible !important;
 }
 }
+
+.logo-carousel .swiper-slide,
+.logo-carousel .logo-item,
+.logo-carousel .partner-logo,
+.logo-carousel .company-name {
+pointer-events: none;
+user-select: none;
+}
