@@ -17,12 +17,20 @@ body {
 }
 
 /* Mobiele aanpassing voor de achtergrondgradiënt */
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
   body {
     background: linear-gradient(to bottom, #001a0d 0%, #003315 100%);
     background-attachment: fixed;
   }
+} */
+
+@media screen and (max-width: 768px) {
+  body {
+    background: #001a0d;
+    background-attachment: fixed;
+  }
 }
+
 
 .container {
   max-width: 1400px;
