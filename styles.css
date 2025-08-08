@@ -2265,3 +2265,19 @@ overflow: visible !important;
 pointer-events: none;
 user-select: none;
 }
+@media screen and (max-width: 768px) {
+/* Zorg dat verticale scroll blijft werken, horizontale gestures negeren */
+.logo-carousel {
+  touch-action: pan-y !important;
+}
+/* Schakel pointer-events uit op content zodat tikken niets pauzeert */
+.logo-carousel .swiper-wrapper,
+.logo-carousel .swiper-slide,
+.logo-carousel .logo-item,
+.logo-carousel .partner-logo,
+.logo-carousel .company-name {
+  pointer-events: none !important;
+  -webkit-user-select: none;
+  user-select: none;
+}
+}
