@@ -1248,7 +1248,7 @@ body {
   margin-top: -23rem; /* Terug naar originele waarde */
   grid-column: 1 / 2;
   grid-row: 2 / 3;
-  align-self: end;
+  align-self: center;
 }
 
 .contact-item {
@@ -2051,10 +2051,13 @@ body {
 
 /* Desktop/Laptop specific adjustments */
 @media screen and (min-width: 769px) {
-  .contact-details {
-    margin-top: -12rem !important; /* Aangepast van -2rem naar -4rem voor meer ruimte naar boven */
+ .contact-details {
+    margin-top: -8rem !important; /* pas aan naar smaak */
+    align-items: flex-start;
   }
-  
+  .contact-item {
+    justify-content: flex-start;
+  }
   .over-button {
     margin-top: -7rem !important; /* Deze blijft hetzelfde */
   }
@@ -2221,5 +2224,20 @@ body {
 
   .company-name {
     font-size: 0.75rem;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .contact-details {
+    order: 3 !important;
+    position: static !important;
+    margin-top: 3rem !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 1rem;
+  }
+  .contact-item {
+    justify-content: center !important;
+    text-align: center !important;
   }
 }
