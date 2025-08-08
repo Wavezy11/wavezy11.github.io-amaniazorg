@@ -30,7 +30,7 @@ body {
   padding: 0 40px;
 }
 
-/* Navigation */
+/* Navigation - Improved Logo Positioning */
 .navbar {
   position: fixed;
   top: 0;
@@ -39,7 +39,7 @@ body {
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   z-index: 1000;
-  padding: 1.5rem 0;
+  padding: 0.5rem 0;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -50,24 +50,31 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
+.nav-logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+}
+
+/* Improved Logo Positioning - Using consistent sizing instead of scale */
 .logo-image {
-  height: 2.8rem; /* Same height as the original text logo */
-  width: auto; /* Maintain aspect ratio */
-  object-fit: contain;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  transform: scale(3); /* Changed to scale(3) */
-}
-
-/* Removed .logo-image:hover */
-
-.footer-logo-image {
-  height: 2.8rem;
+  height: 5.6rem; /* Vergroot van 4.2rem naar 5.6rem */
   width: auto;
   object-fit: contain;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  transform: scale(3); /* Changed to scale(3) */
+  /* Removed transform: scale(3) for more predictable positioning */
+}
+
+.footer-logo-image {
+  height: 5.6rem; /* Ook footer logo vergroten voor consistentie */
+  width: auto;
+  object-fit: contain;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* transform: scale(3); Changed to scale(3) */
 }
 
 /* Removed .footer-logo-image:hover */
@@ -80,6 +87,7 @@ body {
 .nav-menu {
   display: flex;
   gap: 3rem;
+  margin-left: auto; /* Push menu to the right */
 }
 
 .nav-link {
@@ -502,11 +510,11 @@ body {
 .over-button {
   display: inline-flex;
   align-items: center;
-  justify-content: center; /* Center the content like .cta-button */
+  justify-content: center;
   gap: 0.75rem;
   background: transparent;
   color: #1a7d44;
-  padding: 1rem 1.5rem; /* Adjust padding to match .cta-button */
+  padding: 1rem 1.5rem;
   border: 2px solid #1a7d44;
   border-radius: 60px;
   text-decoration: none;
@@ -514,10 +522,9 @@ body {
   font-size: 1.05rem;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   letter-spacing: -0.01em;
-  max-width: 400px; /* Set the same max-width as .cta-button */
-  width: 100%; /* Allow it to take full width up to max-width */
-  box-sizing: border-box; /* Ensure padding and border are included in width */
-
+  max-width: 400px;
+  width: 100%;
+  box-sizing: border-box;
   position: relative;
 }
 .over-button:hover {
@@ -689,18 +696,19 @@ body {
 
   .nav-container {
     padding: 0 24px;
-    justify-content: center; /* Center content in mobile view */
-    position: relative; /* Needed for absolute positioning of toggle */
+    justify-content: center;
+    position: relative;
   }
 
   .nav-logo {
-    flex-grow: 1; /* Allow logo to take available space */
-    text-align: center; /* Center the logo image */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
   }
 
   .logo-image {
-    /* Added: Ensure logo image is centered within its container */
-    margin: 0 auto;
+    height: 3.7rem; /* Vergroot van 2.8rem naar 3.7rem */
   }
 
   .nav-menu {
@@ -709,29 +717,29 @@ body {
 
   .mobile-menu-toggle {
     display: block;
-    position: absolute; /* Position toggle absolutely */
-    right: 24px; /* Align to the right */
-    top: 50%; /* Vertically center */
-    transform: translateY(-50%); /* Adjust for vertical centering */
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
   }
 
   .mobile-menu {
-    padding: 1rem 0; /* Reduce padding for mobile menu */
+    padding: 1rem 0;
   }
 
   .mobile-nav-link {
-    padding: 0.75rem 24px; /* Adjust padding for mobile links */
+    padding: 0.75rem 24px;
   }
 
   .hero-content {
     grid-template-columns: 1fr;
     gap: 4rem;
-    text-align: center; /* Centered text in hero section */
+    text-align: center;
     padding-top: 120px;
   }
 
   .hero-text {
-    /* Added: Ensure hero text is centered */
     text-align: center;
   }
 
@@ -831,25 +839,7 @@ body {
     grid-row: unset !important;
   }
 
-  .contact-details {
-    /* Dit is nu een direct kind van contact-content */
-    order: 3; /* Contact details laatste */
-    display: flex;
-    position: static;
-    flex-direction: column;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 1rem;
-    margin-top: 2rem !important; /* Extra ruimte boven contact details */
-    grid-column: unset !important;
-    grid-row: unset !important;
-    align-self: unset !important;
-  }
-
-  .contact-item {
-    justify-content: center !important; /* Center contact items */
-    text-align: center !important;
-  }
+  
 
   /* Logo centrering op mobiel - vervang bestaande nav regels */
   .nav-container {
@@ -964,7 +954,7 @@ body {
   }
 
   .logo-image {
-    transform: scale(1.5);
+    height: 2.8rem; /* Vergroot van 2.1rem naar 2.8rem */
   }
 
   .contact-content {
@@ -1188,28 +1178,12 @@ body {
   transition: left 0.8s ease;
 }
 
-.collaboration-card:hover::before {
-  left: 100%;
-}
-
-.collaboration-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(26, 125, 68, 0.3);
-  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.3), 0 8px 32px rgba(26, 125, 68, 0.15);
-}
 
 .collaboration-logo {
   margin-bottom: 2rem;
 }
 
-.partner-logo {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
+
 
 .collaboration-card:hover .partner-logo {
   transform: scale(1.05);
@@ -1271,7 +1245,7 @@ body {
 }
 
 .contact-details {
-  margin-top: 3rem; /* Aangepast van 3rem */
+  margin-top: -23rem; /* Terug naar originele waarde */
   grid-column: 1 / 2;
   grid-row: 2 / 3;
   align-self: end;
@@ -2059,5 +2033,193 @@ body {
   }
   50% {
     filter: drop-shadow(0 8px 24px rgba(26, 125, 68, 0.6));
+  }
+}
+
+/* Logo size adjustments */
+@media screen and (max-width: 768px) {
+  .logo-image {
+    height: 3.7rem; /* Vergroot van 2.8rem naar 3.7rem */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .logo-image {
+    height: 2.8rem; /* Vergroot van 2.1rem naar 2.8rem */
+  }
+}
+
+/* Desktop/Laptop specific adjustments */
+@media screen and (min-width: 769px) {
+  .contact-details {
+    margin-top: -12rem !important; /* Aangepast van -2rem naar -4rem voor meer ruimte naar boven */
+  }
+  
+  .over-button {
+    margin-top: -7rem !important; /* Deze blijft hetzelfde */
+  }
+}
+/* NIEUWE CAROUSEL STIJLEN MET BEDRIJFSNAMEN */
+.collaborations-section {
+  padding: 8rem 0;
+  background: transparent;
+}
+
+.logo-carousel-container {
+  margin-top: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.logo-carousel {
+  overflow: visible;
+  padding: 2rem 0;
+}
+
+.logo-carousel .swiper-wrapper {
+  align-items: center;
+  transition-timing-function: linear !important;
+}
+
+.logo-carousel .swiper-slide {
+  width: auto !important;
+  margin-right: 4rem;
+}
+
+.logo-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 2rem;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  min-width: 180px;
+  height: 140px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* .logo-item:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(26, 125, 68, 0.3);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(26, 125, 68, 0.1);
+} */
+
+.partner-logo {
+  max-width: 120px;
+  max-height: 60px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(0%) brightness(1);
+  margin-bottom: 0.75rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Circulaire logo stijlen */
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 3px;
+}
+.partner-logo[alt="Spa Olivia"] {
+  background-color: #dcdcdc;
+}
+
+.partner-logo[alt="Systematex"] {
+  background-color: #ffffff;
+}
+.partner-logo[alt="Ziya Clothing"] {
+  background-color: #304945;
+}
+
+.company-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media screen and (max-width: 768px) {
+  .logo-carousel .swiper-slide {
+    margin-right: 2rem;
+  }
+
+  .logo-item {
+    min-width: 160px;
+    height: 120px;
+    padding: 1rem 1.5rem;
+  }
+
+  .partner-logo {
+    max-width: 100px;
+    max-height: 50px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    object-fit: cover;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 3px;
+    margin-bottom: 0.5rem;
+  }
+
+  .partner-logo[alt="Spa Olivia"] {
+    background-color: #dcdcdc;
+  }
+
+  .partner-logo[alt="Systematex"] {
+    background-color: #ffffff;
+  }
+
+  .partner-logo[alt="Ziya Clothing"] {
+    background-color: #304945;
+  }
+
+  .company-name {
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .logo-carousel .swiper-slide {
+    margin-right: 1.5rem;
+  }
+
+  .logo-item {
+    min-width: 140px;
+    height: 100px;
+    padding: 1rem;
+  }
+
+  .partner-logo {
+    max-width: 80px;
+    max-height: 40px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    object-fit: cover;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 3px;
+  }
+
+  .partner-logo[alt="Spa Olivia"] {
+    background-color: #dcdcdc;
+  }
+
+  .partner-logo[alt="Systematex"] {
+    background-color: #ffffff;
+  }
+
+  .partner-logo[alt="Ziya Clothing"] {
+    background-color: #304945;
+  }
+
+  .company-name {
+    font-size: 0.75rem;
   }
 }

@@ -108,7 +108,7 @@ class ContactFormHandler {
         break
 
       case "phone":
-        if (value && !/^[+]?[0-9\s\-$$$$]{8,}$/.test(value)) {
+        if (value && !/^[+]?[0-9\s\-()]{8,}$/.test(value)) {
           errorMessage = "Voer een geldig telefoonnummer in"
           isValid = false
         }
@@ -333,8 +333,8 @@ const animateOnScroll = new IntersectionObserver(
   },
 )
 
-// Apply animation to service cards, portfolio cards and collaboration cards
-document.querySelectorAll(".service-card, .portfolio-card, .collaboration-card").forEach((card) => {
+// Apply animation to service cards, portfolio cards
+document.querySelectorAll(".service-card, .portfolio-card").forEach((card) => {
   card.style.opacity = "0"
   card.style.transform = "translateY(30px)"
   card.style.transition = "opacity 0.6s ease, transform 0.6s ease"
@@ -349,85 +349,39 @@ const portfolioCards = document.querySelectorAll(".portfolio-card")
 // Portfolio project data
 const portfolioData = {
   "viral-tiktok": {
-    title: "Aftermovie voor het Abu Tayyimah Event ",
+    title: "Aftermovie voor het Abu Tayyimah Event",
     description:
       "Voor het event van Abu Tayyimah maakte ik een korte recapvideo in vertical format. De video liet op een duidelijke en aantrekkelijke manier de sfeer en belangrijkste momenten van het event zien. Door de video slim op social media te delen met relevante hashtags kreeg het event extra aandacht en bereik ook na afloop.",
     mainImage: "img/abu taymiyyah/hero edit.jpg",
     imagePosition: "50% 3%",
-    isVertical: true, // Nieuwe vlag voor verticale afbeeldingen
-    video: "videos/Recap-Abu Taymiyyah event.mp4", // Main video for the project
+    isVertical: true,
     gallery: [
       {
-        type: "image", // Changed from "video" to "image"
-        src: "img/abu taymiyyah/hero.jpg", // Changed to use the thumbnail as the image source
-        isVertical: true, // Explicitly mark this gallery image as vertical
+        type: "image",
+        src: "img/abu taymiyyah/hero.jpg",
+        isVertical: true,
       },
     ],
-    projectLink:
-      "https://www.tiktok.com/@barakahboost.nl/video/7523627234582646038?is_from_webapp=1&sender_device=pc&web_id=7525483219611026977",
+    projectLink: "https://www.tiktok.com/@barakahboost.nl/video/7523627234582646038",
   },
   "brand-identity": {
     title: "Nuurfades - Fotografie en Editwerk",
     description:
-      "Voor Nuurfades mocht ik zowel de fotografie als het editwerk verzorgen. Ik ging op zoek naar beelden die passen bij de uitstraling van het merk: stijlvol, warm en persoonlijk. Tijdens het editen lette ik op de kleinste details om ervoor te zorgen dat alles klopt — van kleurgebruik tot compositie. Het resultaat is een reeks foto's die niet alleen mooi zijn, maar ook écht iets vertellen. Deze beelden worden nu effectief ingezet op social media en andere kanalen, en dragen bij aan een sterke, herkenbare visuele identiteit.",
+      "Voor Nuurfades mocht ik zowel de fotografie als het editwerk verzorgen. Ik ging op zoek naar beelden die passen bij de uitstraling van het merk: stijlvol, warm en persoonlijk. Tijdens het editen lette ik op de kleinste details om ervoor te zorgen dat alles klopt — van kleurgebruik tot compositie. Het resultaat is een reeks foto's die niet alleen mooi zijn, maar ook écht iets vertellen.",
     mainImage: "img/nuurfades/e89b3b7a-a0da-461b-9dd8-69452b3c8713_rw_1200.jpg",
     imagePosition: "center 20%",
-    isVertical: true, // Nieuwe vlag voor verticale afbeeldingen
+    isVertical: true,
     gallery: ["img/nuurfades/e89b3b7a-a0da-461b-9dd8-69452b3c8713_rw_1200.jpg"],
   },
   "ecommerce-platform": {
-    title: "Livzorg - Fotografie",
+    title: "Livzorg – Fotografie",
     description:
-      "Voor Livzorg maakte ik een fotoserie waarin de mensen centraal staan. Geen afstandelijke beelden, maar echte momenten waarin warmte, rust en betrokkenheid voelbaar zijn. In de nabewerking heb ik de beelden zacht gehouden, zodat de natuurlijke sfeer behouden blijft. Dit sluit goed aan bij wie Livzorg is en waar ze voor staan. In de toekomst zal ik ook de videografie voor Livzorg op me nemen, zodat we hun verhaal nog breder en dieper kunnen vertellen — in beeld én beweging.",
+      "Voor Livzorg maakte ik een fotoserie waarin de mensen centraal staan. Geen afstandelijke beelden, maar echte momenten waarin warmte, rust en betrokkenheid voelbaar zijn. In de nabewerking heb ik de beelden zacht gehouden, zodat de natuurlijke sfeer behouden blijft. Dit sluit goed aan bij wie Livzorg is en waar ze voor staan.",
     mainImage: "img/liv zorg/main-foto.jpg",
     imagePosition: "right center",
     gallery: [
-      { type: "image", src: "img/liv zorg/main-foto.jpg", isVertical: false }, // Explicitly mark as vertical
-      { type: "image", src: "img/liv zorg/verticale-foto.jpg", isVertical: true }, // Explicitly mark as vertical
-    ],
-    projectLink: "https://example-store.com",
-  },
-  "instagram-growth": {
-    title: "Instagram Growth Strategy",
-    description:
-      "Voor dit lifestyle merk ontwikkelden we een complete Instagram groeistrategie die resulteerde in explosieve groei. Door consistente, hoogwaardige content, strategische hashtag research, community engagement en influencer partnerships groeiden ze van 2K naar 12K volgers in 6 maanden met significant verhoogde engagement rates.",
-    mainImage:
-      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    imagePosition: "center center",
-    gallery: [
-      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1611262588024-d12430b98920?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-    ],
-  },
-  "motion-graphics": {
-    title: "Motion Graphics Explainer",
-    description:
-      "Deze dynamische animatie video werd ontwikkeld om complexe SaaS diensten op een eenvoudige en boeiende manier uit te leggen. Door gebruik van moderne motion graphics, duidelijke voice-over en strategische storytelling creëerden we content die meer dan 1 miljoen keer bekeken werd en de conversie rate met 45% verhoogde.",
-    mainImage:
-      "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    imagePosition: "center center",
-    video: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4",
-    gallery: [
-      "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-    ],
-  },
-  "product-photography": {
-    title: "Product Fotografie",
-    description:
-      "Voor deze premium sieraden collectie verzorgden we een complete productfotografie sessie. Met professionele studio setup, perfecte belichting en creatieve styling creëerden we beelden die de luxe uitstraling van de producten perfect vastleggen. Het resultaat was een 60% toename in online conversies en verhoogde merkperceptie.",
-    mainImage:
-      "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    imagePosition: "center center",
-    gallery: [
-      "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      { type: "image", src: "img/liv zorg/main-foto.jpg", isVertical: false },
+      { type: "image", src: "img/liv zorg/verticale-foto.jpg", isVertical: true },
     ],
   },
 }
@@ -487,10 +441,10 @@ function openPortfolioModal(project) {
   if (project.imagePosition) {
     modalImage.style.objectPosition = project.imagePosition
   } else {
-    modalImage.style.objectPosition = "center" // Default if not specified
+    modalImage.style.objectPosition = "center"
   }
 
-  // Voeg de 'is-vertical' klasse toe of verwijder deze
+  // Add vertical class if needed
   if (project.isVertical) {
     modalImage.classList.add("is-vertical")
   } else {
@@ -499,30 +453,20 @@ function openPortfolioModal(project) {
 
   // Set gallery
   const galleryGrid = document.getElementById("gallery-grid")
-  galleryGrid.innerHTML = "" // Clear previous gallery items
+  galleryGrid.innerHTML = ""
 
   const itemsToDisplayInGallery = []
 
-  // Add the main project video to gallery if it exists
-  if (project.video) {
-    itemsToDisplayInGallery.push({
-      type: "video",
-      src: project.video,
-      thumbnail: project.mainImage || "/img/placeholder-video.png", // Gebruik lokale placeholder
+  // Add all gallery items from the project.gallery array
+  if (project.gallery) {
+    project.gallery.forEach((item) => {
+      if (typeof item === "string") {
+        itemsToDisplayInGallery.push({ type: "image", src: item })
+      } else {
+        itemsToDisplayInGallery.push({ ...item })
+      }
     })
   }
-
-  // Add all other gallery items from the project.gallery array
-  project.gallery.forEach((item) => {
-    if (typeof item === "string") {
-      // Assume string items are images and default to horizontal (cover)
-      itemsToDisplayInGallery.push({ type: "image", src: item })
-    } else {
-      // Assume object items are already structured (e.g., {type: 'video', src: ..., thumbnail: ...})
-      // Ensure isVertical is explicitly set, defaulting to false if not present
-      itemsToDisplayInGallery.push({ ...item })
-    }
-  })
 
   // Populate the gallery grid
   itemsToDisplayInGallery.forEach((item) => {
@@ -531,10 +475,10 @@ function openPortfolioModal(project) {
 
     if (item.type === "video") {
       galleryItem.innerHTML = `
-    <video class="gallery-video" controls poster="${item.thumbnail}">
-      <source src="${item.src}" type="video/mp4">
-    </video>
-  `
+        <video class="gallery-video" controls poster="${item.thumbnail}">
+          <source src="${item.src}" type="video/mp4">
+        </video>
+      `
     } else if (item.type === "image") {
       galleryItem.innerHTML = `<img src="${item.src}" alt="Project afbeelding" class="gallery-image">`
     }
@@ -553,7 +497,7 @@ function openPortfolioModal(project) {
   // Add event listeners to CTA buttons in modal
   const modalCTAButtons = document.querySelectorAll('.modal-cta[href="#contact"]')
   modalCTAButtons.forEach((button) => {
-    button.removeEventListener("click", handleModalCTA) // Remove existing listener
+    button.removeEventListener("click", handleModalCTA)
     button.addEventListener("click", handleModalCTA)
   })
 
@@ -591,7 +535,7 @@ function handleModalCTA(e) {
 
       // Optional: Focus on the first input field
       setTimeout(() => {
-        const firstInput = document.querySelector("#name")
+        const firstInput = document.querySelector('input[name="name"]')
         if (firstInput) {
           firstInput.focus()
         }
@@ -617,12 +561,12 @@ processSteps.forEach((step, index) => {
 // Counter animation for stats section
 const counterElement = document.getElementById("counter")
 const targetValue = 20000000 // 20 million
-const duration = 1500 // 1.5 seconds for animation (was 3000)
+const duration = 1500 // 1.5 seconds for animation
 
 let animationStarted = false
 
 function formatViews(num) {
-  return Math.round(num).toLocaleString("nl-NL") // Round to nearest integer and format with locale-specific thousands separators
+  return Math.round(num).toLocaleString("nl-NL")
 }
 
 function animateCounter(timestamp) {
@@ -636,7 +580,7 @@ function animateCounter(timestamp) {
   if (percentage < 1) {
     requestAnimationFrame(animateCounter)
   } else {
-    counterElement.textContent = formatViews(targetValue) // Ensure final value is exact
+    counterElement.textContent = formatViews(targetValue)
   }
 }
 
@@ -645,15 +589,15 @@ const statsObserver = new IntersectionObserver(
     entries.forEach((entry) => {
       if (entry.isIntersecting && !animationStarted) {
         animationStarted = true
-        animateCounter.startTime = null // Reset startTime for a fresh animation
+        animateCounter.startTime = null
         requestAnimationFrame(animateCounter)
-        statsObserver.unobserve(entry.target) // Stop observing once animated
+        statsObserver.unobserve(entry.target)
       }
     })
   },
   {
-    threshold: 0.5, // Trigger when 50% of the section is visible
-    rootMargin: "0px 0px -100px 0px", // Adjust as needed
+    threshold: 0.5,
+    rootMargin: "0px 0px -100px 0px",
   },
 )
 
@@ -669,17 +613,20 @@ const heroSlideshowItems = [
     type: "image",
     src: "img/abu taymiyyah/hero.jpg",
     alt: "Event Recap Video",
-    poster: "img/abu taymiyyah/hero edit.png",
   },
   {
     type: "image",
     src: "img/nuurfades/e89b3b7a-a0da-461b-9dd8-69452b3c8713_rw_1200.jpg",
     alt: "Nuurfades Fotografie Mockup",
   },
-  { type: "image", src: "img/liv zorg/verticale-foto.jpg", alt: "Livzorg Fotografie Mockup" },
+  { 
+    type: "image", 
+    src: "img/liv zorg/verticale-foto.jpg", 
+    alt: "Livzorg Fotografie Mockup" 
+  },
 ]
 let currentHeroSlide = 0
-const heroSlideIntervalTime = 3000 // Change slide every 10 seconds (10000 ms)
+const heroSlideIntervalTime = 3000
 
 function createHeroSlideElement(item) {
   const slideDiv = document.createElement("div")
@@ -734,11 +681,9 @@ function initializeHeroSlideshow() {
       if (i === index) {
         slide.classList.add("active")
         if (video) {
-          video.currentTime = 0 // Reset video to start
+          video.currentTime = 0
           video.play().catch((error) => {
-            console.warn("Video autoplay geblokkeerd (zelfs gedempt):", error)
-            // De browser staat autoplay niet toe zonder gebruikersinteractie.
-            // De video zal de poster afbeelding tonen totdat de gebruiker interactie heeft.
+            console.warn("Video autoplay geblokkeerd:", error)
           })
         }
       } else {
@@ -756,10 +701,71 @@ function initializeHeroSlideshow() {
   }
 
   if (slides.length > 0) {
-    showHeroSlide(currentHeroSlide) // Show the first slide initially
+    showHeroSlide(currentHeroSlide)
     setInterval(nextHeroSlide, heroSlideIntervalTime)
   }
 }
 
-// Call initialize function when DOM is ready
-document.addEventListener("DOMContentLoaded", initializeHeroSlideshow)
+// Initialize Logo Carousel - PROFESSIONELE SNELHEID MET BEDRIJFSNAMEN
+function initializeLogoCarousel() {
+  console.log('Initializing logo carousel...');
+  
+  if (typeof Swiper === 'undefined') {
+    console.error('Swiper is not loaded');
+    return;
+  }
+
+  try {
+    const logoCarousel = new Swiper('.logo-carousel', {
+      slidesPerView: 'auto',
+      spaceBetween: 0,
+      loop: true,
+      centeredSlides: false,
+      autoplay: {
+        delay: 0,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: false,
+        reverseDirection: false,
+      },
+      speed: 8000, // Langzamere, professionele snelheid
+      allowTouchMove: false,
+      freeMode: {
+        enabled: true,
+        momentum: false,
+      },
+      loopAdditionalSlides: 3,
+      breakpoints: {
+        320: {
+          speed: 6000,
+        },
+        768: {
+          speed: 8000,
+        },
+        1024: {
+          speed: 10000,
+        }
+      }
+    });
+
+    // Force start autoplay
+    setTimeout(() => {
+      logoCarousel.autoplay.start();
+      console.log('Logo carousel autoplay started with professional speed');
+    }, 500);
+    
+    console.log('Logo carousel initialized successfully');
+  } catch (error) {
+    console.error('Error initializing logo carousel:', error);
+  }
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener("DOMContentLoaded", function() {
+  console.log('DOM loaded, initializing components...');
+  initializeHeroSlideshow();
+  
+  // Wait a bit longer for Swiper to be fully loaded
+  setTimeout(() => {
+    initializeLogoCarousel();
+  }, 1000);
+});
