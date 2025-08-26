@@ -31,10 +31,11 @@ body {
   }
 }
 
+/* Optimized container and viewport units for consistent display across large devices */
 .container {
-  max-width: 1400px;
+  max-width: min(1400px, 90vw);
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 clamp(20px, 3vw, 40px);
 }
 
 /* Navigation - Improved Logo Positioning */
@@ -46,14 +47,14 @@ body {
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   z-index: 1000;
-  padding: 0.5rem 0;
+  padding: clamp(0.3rem, 1vh, 0.8rem) 0;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .nav-container {
-  max-width: 1400px;
+  max-width: min(1400px, 90vw);
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 clamp(20px, 3vw, 40px);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -169,13 +170,14 @@ body {
 }
 
 /* Hero Section */
+/* Hero section optimized with viewport units for consistent scaling */
 .hero {
   background: transparent;
   position: relative;
   min-height: 100vh;
   display: flex;
   align-items: center;
-  padding: 120px 0 80px;
+  padding: clamp(100px, 12vh, 120px) 0 clamp(60px, 8vh, 80px);
 }
 
 .hero-glow {
@@ -183,8 +185,8 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 80%;
-  height: 80%;
+  width: min(80vw, 80vh);
+  height: min(80vw, 80vh);
   background: radial-gradient(circle, rgba(26, 125, 68, 0.08) 0%, transparent 70%);
   border-radius: 50%;
   z-index: -1;
@@ -208,7 +210,7 @@ body {
   z-index: 2;
   display: grid;
   grid-template-columns: 1.2fr 1fr;
-  gap: 6rem;
+  gap: clamp(3rem, 6vw, 6rem);
   align-items: center;
   width: 100%;
 }
@@ -230,10 +232,11 @@ body {
   display: none;
 }
 
+/* Improved title scaling with better viewport unit usage */
 .hero-title {
-  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-size: clamp(2.5rem, 5vw + 1rem, 5.5rem);
   font-weight: 700;
-  margin-bottom: 2rem;
+  margin-bottom: clamp(1.5rem, 3vh, 2rem);
   background: linear-gradient(135deg, #ffffff 0%, #e8f5e8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -243,15 +246,16 @@ body {
 }
 
 .hero-subtitle {
-  font-size: 1.375rem;
-  margin-bottom: 3rem;
+  font-size: clamp(1.125rem, 1.5vw + 0.5rem, 1.375rem);
+  margin-bottom: clamp(2rem, 4vh, 3rem);
   color: rgba(255, 255, 255, 0.8);
-  max-width: 580px;
+  max-width: min(580px, 90%);
   line-height: 1.6;
   font-weight: 400;
   letter-spacing: -0.01em;
 }
 
+/* CTA button with better responsive sizing */
 .cta-button {
   display: inline-flex;
   align-items: center;
@@ -259,19 +263,19 @@ body {
   gap: 0.75rem;
   background: transparent;
   color: #1a7d44;
-  padding: 1rem 1.5rem;
+  padding: clamp(0.8rem, 1.5vh, 1rem) clamp(1.2rem, 2vw, 1.5rem);
   border: 2px solid #1a7d44;
   border-radius: 60px;
   text-decoration: none;
   font-weight: 600;
-  font-size: 1.05rem;
+  font-size: clamp(0.95rem, 1.2vw + 0.3rem, 1.05rem);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   letter-spacing: -0.01em;
-  max-width: 400px;
+  max-width: min(400px, 80vw);
   width: 100%;
   box-sizing: border-box;
-  margin-bottom: 0; /* Set to 0 or adjust as needed */
-  margin-top: -8rem; /* Add negative margin to move it up */
+  margin-bottom: 0;
+  margin-top: clamp(-6rem, -8vh, -8rem);
   position: relative;
 }
 .cta-button:hover {
@@ -321,15 +325,16 @@ body {
   letter-spacing: -0.02em;
 }
 
+/* Counter section with improved viewport scaling */
 .counter-container {
-  margin-bottom: 2rem;
+  margin-bottom: clamp(1.5rem, 3vh, 2rem);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .counter {
-  font-size: clamp(4rem, 10vw, 9rem);
+  font-size: clamp(3rem, 8vw + 1rem, 9rem);
   font-weight: 700;
   color: #1a7d44;
   display: block;
@@ -685,6 +690,51 @@ body {
 }
 
 /* Mobile Responsive */
+@media screen and (min-width: 1400px) {
+  .container,
+  .nav-container {
+    max-width: 1600px;
+    padding: 0 60px;
+  }
+
+  .hero-content {
+    gap: 8rem;
+  }
+
+  .hero-title {
+    font-size: 6rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+  .hero-content {
+    gap: 5rem;
+  }
+
+  .hero-title {
+    font-size: clamp(4rem, 4.5vw, 5rem);
+  }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+  .container,
+  .nav-container {
+    padding: 0 30px;
+  }
+
+  .hero-content {
+    gap: 4rem;
+  }
+
+  .hero-title {
+    font-size: clamp(3.5rem, 4vw, 4.5rem);
+  }
+}
+
 @media screen and (max-width: 1200px) {
   .process-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -698,11 +748,11 @@ body {
 
 @media screen and (max-width: 768px) {
   .container {
-    padding: 0 24px;
+    padding: 0 clamp(16px, 4vw, 24px);
   }
 
   .nav-container {
-    padding: 0 24px;
+    padding: 0 clamp(16px, 4vw, 24px);
     justify-content: center;
     position: relative;
   }
@@ -715,7 +765,7 @@ body {
   }
 
   .logo-image {
-    height: 3.7rem; /* Vergroot van 2.8rem naar 3.7rem */
+    height: clamp(3rem, 5vh, 3.7rem);
   }
 
   .nav-menu {
@@ -741,9 +791,9 @@ body {
 
   .hero-content {
     grid-template-columns: 1fr;
-    gap: 4rem;
+    gap: clamp(3rem, 6vh, 4rem);
     text-align: center;
-    padding-top: 120px;
+    padding-top: clamp(100px, 15vh, 120px);
   }
 
   .hero-text {
@@ -753,18 +803,19 @@ body {
   .cta-button {
     margin-top: 1rem;
     position: static;
+    max-width: 100%;
   }
 
   .counter {
-    font-size: clamp(3rem, 12vw, 5rem);
+    font-size: clamp(2.5rem, 10vw, 5rem);
   }
 
   .stats-title {
-    font-size: 2rem;
+    font-size: clamp(1.75rem, 4vw, 2rem);
   }
 
   .section-title {
-    font-size: 2.75rem;
+    font-size: clamp(2.25rem, 5vw, 2.75rem);
   }
 
   .services-grid,
@@ -848,7 +899,7 @@ body {
 
   /* Logo centrering op mobiel - vervang bestaande nav regels */
   .nav-container {
-    padding: 0 24px;
+    padding: 0 clamp(16px, 4vw, 24px);
     display: flex !important;
     justify-content: center !important; /* Center de hele container */
     align-items: center !important;
@@ -2142,6 +2193,18 @@ body {
   background-color: #304945;
 }
 
+.partner-logo[alt="Nuurfades"] {
+  background-color: black;
+}
+
+.partner-logo[alt="Livzorg"] {
+  background-color: #2a421e;
+}
+
+.partner-logo[alt="Glans Direct"] {
+  background-color: #fdfdfd;
+}
+
 .company-name {
   font-size: 0.875rem;
   font-weight: 600;
@@ -2173,7 +2236,6 @@ body {
     padding: 3px;
     margin-bottom: 0.5rem;
   }
-
   .partner-logo[alt="Spa Olivia"] {
     background-color: #dcdcdc;
   }
@@ -2181,9 +2243,20 @@ body {
   .partner-logo[alt="Systematex"] {
     background-color: #ffffff;
   }
-
   .partner-logo[alt="Ziya Clothing"] {
     background-color: #304945;
+  }
+
+  .partner-logo[alt="Nuurfades"] {
+    background-color: black;
+  }
+
+  .partner-logo[alt="Livzorg"] {
+    background-color: #2a421e;
+  }
+
+  .partner-logo[alt="Glans Direct"] {
+    background-color: #fdfdfd;
   }
 
   .company-name {
@@ -2211,7 +2284,6 @@ body {
     background: rgba(255, 255, 255, 0.9);
     padding: 3px;
   }
-
   .partner-logo[alt="Spa Olivia"] {
     background-color: #dcdcdc;
   }
@@ -2219,9 +2291,20 @@ body {
   .partner-logo[alt="Systematex"] {
     background-color: #ffffff;
   }
-
   .partner-logo[alt="Ziya Clothing"] {
     background-color: #304945;
+  }
+
+  .partner-logo[alt="Nuurfades"] {
+    background-color: black;
+  }
+
+  .partner-logo[alt="Livzorg"] {
+    background-color: #2a421e;
+  }
+
+  .partner-logo[alt="Glans Direct"] {
+    background-color: #fdfdfd;
   }
 
   .company-name {
@@ -2272,5 +2355,35 @@ body {
     pointer-events: none !important;
     -webkit-user-select: none;
     user-select: none;
+  }
+}
+/* Hero fix specifiek voor desktop */
+@media screen and (min-width: 1921px) {
+  .hero {
+    min-height: 100vh;
+    padding-top: 200px; /* extra ruimte boven */
+    padding-bottom: 160px; /* extra ruimte onder */
+  }
+
+  .hero-title {
+    font-size: 6.5rem; /* maak de titel extra groot */
+    line-height: 1.05;
+  }
+
+  .hero-subtitle {
+    font-size: 1.6rem; /* subtitel groter voor balans */
+    max-width: 650px;  /* breedte iets ruimer */
+  }
+
+  .cta-button {
+    font-size: 1.2rem; 
+    padding: 1.2rem 2.5rem; /* grotere knop */
+
+    max-width: 320px;
+  }
+
+  .hero-mockup-slideshow {
+    max-width: 650px; /* mockup breder */
+    height: 520px;    /* mockup hoger */
   }
 }

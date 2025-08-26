@@ -384,6 +384,12 @@ const portfolioData = {
     isVertical: true,
     gallery: [
       {
+        type: "video",
+        src: "videos/Recap-Abu Taymiyyah event.mp4",
+        isVertical: true,
+        thumbnail: "img/abu taymiyyah/hero edit.jpg",
+      },
+      {
         type: "image",
         src: "img/abu taymiyyah/hero.jpg",
         isVertical: true,
@@ -406,6 +412,7 @@ const portfolioData = {
       "Voor Livzorg maakte ik een fotoserie waarin de mensen centraal staan. Geen afstandelijke beelden, maar echte momenten waarin warmte, rust en betrokkenheid voelbaar zijn. In de nabewerking heb ik de beelden zacht gehouden, zodat de natuurlijke sfeer behouden blijft. Dit sluit goed aan bij wie Livzorg is en waar ze voor staan.",
     mainImage: "img/liv zorg/main-foto.jpg",
     imagePosition: "right center",
+    isVertical: true,
     gallery: [
       { type: "image", src: "img/liv zorg/main-foto.jpg", isVertical: false },
       { type: "image", src: "img/liv zorg/verticale-foto.jpg", isVertical: true },
@@ -502,10 +509,11 @@ function openPortfolioModal(project) {
 
     if (item.type === "video") {
       galleryItem.innerHTML = `
-    <video class="gallery-video" controls poster="${item.thumbnail}">
-      <source src="${item.src}" type="video/mp4">
-    </video>
-  `
+        <video class="gallery-video" controls ${item.thumbnail ? `poster="${item.thumbnail}"` : ""}>
+          <source src="${item.src}" type="video/mp4">
+          <p>Je browser ondersteunt deze video niet. <a href="${item.src}" target="_blank">Download de video</a></p>
+        </video>
+      `
     } else if (item.type === "image") {
       galleryItem.innerHTML = `<img src="${item.src}" alt="Project afbeelding" class="gallery-image">`
     }
@@ -759,29 +767,22 @@ function initializeLogoCarousel() {
 
     const isMobile = window.matchMedia("(max-width: 768px)").matches
 
-    const logoCarousel = new Swiper(containerSelector, {
-      slidesPerView: "auto",
-      spaceBetween: 0,
-      loop: true,
-      centeredSlides: false,
-      speed: isMobile ? 6000 : 8000, // Slower on mobile for better performance
-      allowTouchMove: false,
-      simulateTouch: false,
-      preventClicks: true,
-      preventClicksPropagation: true,
-      freeMode: {
-        enabled: true,
-        momentum: false,
-      },
-      autoplay: {
-        delay: 0,
-        disableOnInteraction: false,
-        pauseOnMouseEnter: false,
-        stopOnLastSlide: false,
-        waitForTransition: false,
-      },
-      loopAdditionalSlides: 3,
-    })
+   const logoCarousel = new Swiper(containerSelector, {
+  slidesPerView: "auto",
+  spaceBetween: 0,
+  loop: true,
+  centeredSlides: false,
+  speed: 5000, // constante snelheid
+  allowTouchMove: false,
+  freeMode: true,
+  freeModeMomentum: false,
+  autoplay: {
+    delay: 1, // heel klein, geen echte pauze
+    disableOnInteraction: false,
+  },
+  loopAdditionalSlides: 10, // ruim duplicaten
+});
+
 
     const resume = () => {
       try {
