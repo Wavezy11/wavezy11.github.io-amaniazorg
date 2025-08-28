@@ -1,855 +1,577 @@
-// Mobile menu toggle
-const mobileMenuToggle = document.querySelector(".mobile-menu-toggle")
-const mobileMenu = document.querySelector(".mobile-menu")
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("[v0] Script loaded successfully")
 
-if (mobileMenuToggle && mobileMenu) {
-  mobileMenuToggle.addEventListener("click", () => {
-    mobileMenu.classList.toggle("active")
-    const icon = mobileMenuToggle.querySelector("i")
-    if (icon) {
-      if (mobileMenu.classList.contains("active")) {
-        icon.classList.remove("fa-bars")
-        icon.classList.add("fa-times")
-      } else {
-        icon.classList.remove("fa-times")
-        icon.classList.add("fa-bars")
-      }
-    }
-  })
+  // Smooth scrolling for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", function (e) {
+      e.preventDefault()
+      const targetId = this.getAttribute("href")
+      const targetElement = document.querySelector(targetId)
+      if (targetElement) {
+        const headerOffset = document.querySelector(".header")?.offsetHeight || 0
+        const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset
+        const offsetPosition = elementPosition - headerOffset - 20
 
-  // Close mobile menu when clicking on a link
-  document.querySelectorAll(".mobile-nav-link").forEach((link) => {
-    link.addEventListener("click", () => {
-      mobileMenu.classList.remove("active")
-      const icon = mobileMenuToggle.querySelector("i")
-      if (icon) {
-        icon.classList.remove("fa-times")
-        icon.classList.add("fa-bars")
-      }
-    })
-  })
-}
-
-// Smooth scrolling for navigation links
-let scrollTimeout
-document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-  anchor.addEventListener("click", function (e) {
-    e.preventDefault()
-    const target = document.querySelector(this.getAttribute("href"))
-    if (target) {
-      if (scrollTimeout) clearTimeout(scrollTimeout)
-      scrollTimeout = setTimeout(() => {
-        target.scrollIntoView({
+        window.scrollTo({
+          top: offsetPosition,
           behavior: "smooth",
-          block: "start",
         })
-      }, 10)
-    }
+
+        // Close mobile menu if open
+        const navList = document.querySelector(".nav-list")
+        const hamburgerMenu = document.querySelector(".hamburger-menu")
+        if (navList?.classList.contains("active")) {
+          navList.classList.remove("active")
+          hamburgerMenu?.setAttribute("aria-expanded", "false")
+          document.body.style.overflow = ""
+        }
+      }
+    })
   })
-})
 
-// Enhanced Form Validation and Handling
-class ContactFormHandler {
-  constructor() {
-    this.form = document.getElementById("contact-form")
-    this.submitBtn = document.getElementById("submit-btn")
-    this.btnText = this.submitBtn.querySelector(".btn-text")
-    this.btnLoader = this.submitBtn.querySelector(".btn-loader")
-    this.successMessage = document.getElementById("form-success")
-    this.errorMessage = document.getElementById("form-error")
-    this.errorText = document.getElementById("error-text")
+  // Mobile navigation
+  const hamburgerMenu = document.querySelector(".hamburger-menu")
+  const navList = document.querySelector(".nav-list")
+  const navLinks = document.querySelectorAll(".nav-list .nav-link")
 
-    this.init()
+  // Create overlay element for mobile menu
+  let navOverlay = document.querySelector(".nav-overlay")
+  if (!navOverlay) {
+    navOverlay = document.createElement("div")
+    navOverlay.className = "nav-overlay"
+    document.body.appendChild(navOverlay)
   }
 
-  init() {
-    if (!this.form) return
+  if (hamburgerMenu && navList) {
+    hamburgerMenu.addEventListener("click", () => {
+      const isActive = navList.classList.contains("active")
 
-    // Add real-time validation
-    this.addRealTimeValidation()
+      if (isActive) {
+        navList.classList.remove("active")
+        navOverlay.classList.remove("active")
+        hamburgerMenu.setAttribute("aria-expanded", "false")
+        document.body.style.overflow = ""
+      } else {
+        navList.classList.add("active")
+        navOverlay.classList.add("active")
+        hamburgerMenu.setAttribute("aria-expanded", "true")
+        document.body.style.overflow = "hidden"
+      }
+    })
 
-    // Handle form submission
-    this.form.addEventListener("submit", (e) => this.handleSubmit(e))
-  }
+    navLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        if (navList.classList.contains("active")) {
+          navList.classList.remove("active")
+          navOverlay.classList.remove("active")
+          hamburgerMenu.setAttribute("aria-expanded", "false")
+          document.body.style.overflow = ""
+        }
+      })
+    })
 
-  addRealTimeValidation() {
-    const inputs = this.form.querySelectorAll("input, textarea")
-
-    inputs.forEach((input) => {
-      // Validate on blur (when user leaves field)
-      input.addEventListener("blur", () => this.validateField(input))
-
-      // Clear errors on input
-      input.addEventListener("input", () => this.clearFieldError(input))
+    navOverlay.addEventListener("click", () => {
+      if (navList.classList.contains("active")) {
+        navList.classList.remove("active")
+        navOverlay.classList.remove("active")
+        hamburgerMenu.setAttribute("aria-expanded", "false")
+        document.body.style.overflow = ""
+      }
     })
   }
 
-  validateField(field) {
-    const value = field.value.trim()
-    const fieldName = field.name
-    let isValid = true
-    let errorMessage = ""
+  // Back to top button
+  const backToTopButton = document.getElementById("back-to-top")
+  if (backToTopButton) {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 300) {
+        backToTopButton.classList.add("show")
+      } else {
+        backToTopButton.classList.remove("show")
+      }
+    })
 
-    // Skip honeypot field
-    if (fieldName === "website") return true
-
-    switch (fieldName) {
-      case "name":
-        if (!value) {
-          errorMessage = "Naam is verplicht"
-          isValid = false
-        } else if (value.length < 2) {
-          errorMessage = "Naam moet minimaal 2 karakters bevatten"
-          isValid = false
-        } else if (!/^[a-zA-ZÀ-ÿ\s'-]+$/.test(value)) {
-          errorMessage = "Naam mag alleen letters, spaties, apostrofes en koppeltekens bevatten"
-          isValid = false
-        }
-        break
-
-      case "email":
-        if (!value) {
-          errorMessage = "E-mailadres is verplicht"
-          isValid = false
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-          errorMessage = "Voer een geldig e-mailadres in"
-          isValid = false
-        }
-        break
-
-      case "phone":
-        if (value && !/^[+]?[0-9\s\-()]{8,}$/.test(value)) {
-          errorMessage = "Voer een geldig telefoonnummer in"
-          isValid = false
-        }
-        break
-
-      case "message":
-        if (!value) {
-          errorMessage = "Bericht is verplicht"
-          isValid = false
-        } else if (value.length < 10) {
-          errorMessage = "Bericht moet minimaal 10 karakters bevatten"
-          isValid = false
-        } else if (value.length > 2000) {
-          errorMessage = "Bericht mag maximaal 2000 karakters bevatten"
-          isValid = false
-        }
-        break
-    }
-
-    this.showFieldError(field, errorMessage)
-    return isValid
+    backToTopButton.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      })
+    })
   }
 
-  showFieldError(field, message) {
-    const errorElement = document.getElementById(`${field.name}-error`)
-    if (errorElement) {
-      errorElement.textContent = message
-      errorElement.style.display = message ? "block" : "none"
-    }
+  const initializeCheckboxes = () => {
+    console.log("[v0] Initializing checkboxes")
+    const checkboxes = document.querySelectorAll('.checkbox-item input[type="checkbox"]')
+    console.log("[v0] Found checkboxes:", checkboxes.length)
 
-    if (message) {
-      field.classList.add("error")
-      field.setAttribute("aria-invalid", "true")
+    checkboxes.forEach((checkbox, index) => {
+      console.log("[v0] Setting up checkbox", index, checkbox.id)
+
+      // Remove existing event listeners to prevent duplicates
+      checkbox.removeEventListener("change", handleCheckboxChange)
+      checkbox.removeEventListener("keydown", handleCheckboxKeydown)
+
+      // Add event listeners
+      checkbox.addEventListener("change", handleCheckboxChange)
+      checkbox.addEventListener("keydown", handleCheckboxKeydown)
+
+      // Make sure the checkbox item is clickable
+      const checkboxItem = checkbox.closest(".checkbox-item")
+      if (checkboxItem) {
+        checkboxItem.style.cursor = "pointer"
+        checkboxItem.addEventListener("click", (e) => {
+          // Only trigger if clicking on the item itself, not the checkbox
+          if (
+            e.target === checkboxItem ||
+            e.target.classList.contains("checkbox-text") ||
+            e.target.classList.contains("checkmark")
+          ) {
+            e.preventDefault()
+            checkbox.checked = !checkbox.checked
+            checkbox.dispatchEvent(new Event("change"))
+          }
+        })
+      }
+    })
+  }
+
+  function handleCheckboxChange() {
+    console.log("[v0] Checkbox changed:", this.id, this.checked)
+    const checkboxItem = this.closest(".checkbox-item")
+    const checkmark = checkboxItem?.querySelector(".checkmark")
+
+    if (this.checked) {
+      checkboxItem?.classList.add("checked")
+      if (checkmark) {
+        checkmark.style.transform = "scale(1.1)"
+        setTimeout(() => {
+          checkmark.style.transform = "scale(1)"
+        }, 150)
+      }
     } else {
-      field.classList.remove("error")
-      field.setAttribute("aria-invalid", "false")
+      checkboxItem?.classList.remove("checked")
     }
   }
 
-  clearFieldError(field) {
-    this.showFieldError(field, "")
+  function handleCheckboxKeydown(e) {
+    if (e.key === " ") {
+      e.preventDefault()
+      this.checked = !this.checked
+      this.dispatchEvent(new Event("change"))
+    }
   }
 
-  validateForm() {
-    const requiredFields = this.form.querySelectorAll("[required]")
-    let isValid = true
+  // Initialize checkboxes
+  initializeCheckboxes()
 
-    requiredFields.forEach((field) => {
-      if (!this.validateField(field)) {
+  // Form validation functions
+  function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
+
+  function validatePhone(phone) {
+    const cleanPhone = phone.replace(/[\s\-+]/g, "")
+    return /^\d{10,}$/.test(cleanPhone)
+  }
+
+  function showError(input, message) {
+    const formGroup = input.closest(".form-group")
+    formGroup?.classList.add("error")
+
+    const existingError = formGroup?.querySelector(".form-error")
+    if (existingError) {
+      existingError.remove()
+    }
+
+    const errorElement = document.createElement("span")
+    errorElement.className = "form-error"
+    errorElement.textContent = message
+    input.parentNode?.appendChild(errorElement)
+  }
+
+  function clearError(input) {
+    const formGroup = input.closest(".form-group")
+    formGroup?.classList.remove("error")
+    const errorElement = formGroup?.querySelector(".form-error")
+    if (errorElement) {
+      errorElement.remove()
+    }
+  }
+
+  // Contact form handling
+  const contactForm = document.querySelector(".contact-form")
+  if (contactForm) {
+    contactForm.addEventListener("submit", async (e) => {
+      e.preventDefault()
+      let isValid = true
+
+      const nameInput = contactForm.querySelector("#contact-name")
+      const emailInput = contactForm.querySelector("#contact-email")
+      const messageInput = contactForm.querySelector("#contact-message")
+
+      // Clear previous errors
+      if (nameInput) clearError(nameInput)
+      if (emailInput) clearError(emailInput)
+      if (messageInput) clearError(messageInput)
+
+      // Validate fields
+      if (nameInput && !nameInput.value.trim()) {
+        showError(nameInput, "Naam is verplicht.")
         isValid = false
       }
+
+      if (emailInput) {
+        if (!emailInput.value.trim()) {
+          showError(emailInput, "E-mailadres is verplicht.")
+          isValid = false
+        } else if (!validateEmail(emailInput.value)) {
+          showError(emailInput, "Voer een geldig e-mailadres in.")
+          isValid = false
+        }
+      }
+
+      if (messageInput && !messageInput.value.trim()) {
+        showError(messageInput, "Bericht is verplicht.")
+        isValid = false
+      }
+
+      if (isValid) {
+        try {
+          const formData = new FormData(contactForm)
+          const response = await fetch("https://formspree.io/f/mvgbgekp", {
+            method: "POST",
+            body: formData,
+            headers: {
+              Accept: "application/json",
+            },
+          })
+
+          if (response.ok) {
+            alert("Bedankt voor uw bericht! Wij nemen zo spoedig mogelijk contact met u op.")
+            contactForm.reset()
+          } else {
+            throw new Error("Failed to send message")
+          }
+        } catch (error) {
+          console.error("Error sending message:", error)
+          alert("Er is een fout opgetreden bij het verzenden van uw bericht. Probeer het later opnieuw.")
+        }
+      }
     })
-
-    // Check honeypot
-    const honeypot = this.form.querySelector('input[name="website"]')
-    if (honeypot && honeypot.value.trim() !== "") {
-      // Likely spam - fail silently
-      return false
-    }
-
-    return isValid
   }
 
-  async handleSubmit(e) {
-    e.preventDefault()
+  // Signup form handling
+  const signupForm = document.querySelector(".signup-form")
+  if (signupForm) {
+    signupForm.addEventListener("submit", async (e) => {
+      e.preventDefault()
+      console.log("[v0] Signup form submitted")
+      let isValid = true
 
-    // Validate form
-    if (!this.validateForm()) {
-      this.showError("Controleer de ingevoerde gegevens en probeer opnieuw.")
-      return
-    }
+      const nameInput = signupForm.querySelector("#applicant-name")
+      const emailInput = signupForm.querySelector("#applicant-email")
+      const phoneInput = signupForm.querySelector("#applicant-phone")
+      const checkboxes = signupForm.querySelectorAll('input[name="hulpvraag[]"]:checked')
+      const messageInput = signupForm.querySelector("#applicant-message")
 
-    // Show loading state
-    this.setLoadingState(true)
-    this.hideMessages()
+      console.log("[v0] Checked checkboxes:", checkboxes.length)
 
-    try {
-      const formData = new FormData(this.form)
-
-      const response = await fetch(this.form.action, {
-        method: "POST",
-        body: formData,
-        headers: {
-          Accept: "application/json",
-        },
+      // Clear previous errors
+      signupForm.querySelectorAll(".form-group").forEach((group) => {
+        group.classList.remove("error")
+        const errorElement = group.querySelector(".form-error")
+        if (errorElement) {
+          errorElement.remove()
+        }
       })
 
-      const result = await response.json()
-
-      if (result.status === "success") {
-        this.showSuccess(result.message)
-        this.form.reset()
-        this.clearAllErrors()
-      } else {
-        this.showError(result.message || "Er is een onbekende fout opgetreden.")
+      // Validate fields
+      if (nameInput && !nameInput.value.trim()) {
+        showError(nameInput, "Naam is verplicht.")
+        isValid = false
       }
-    } catch (error) {
-      console.error("Form submission error:", error)
-      this.showError(
-        "Netwerkfout: Kon geen verbinding maken met de server. Controleer je internetverbinding en probeer het opnieuw.",
-      )
-    } finally {
-      this.setLoadingState(false)
-    }
-  }
 
-  setLoadingState(loading) {
-    if (loading) {
-      this.submitBtn.disabled = true
-      this.btnText.style.display = "none"
-      this.btnLoader.style.display = "inline-flex"
-      this.submitBtn.classList.add("loading")
-    } else {
-      this.submitBtn.disabled = false
-      this.btnText.style.display = "inline"
-      this.btnLoader.style.display = "none"
-      this.submitBtn.classList.remove("loading")
-    }
-  }
-
-  showSuccess(message) {
-    this.successMessage.querySelector("p").textContent = message
-    this.successMessage.classList.remove("hidden")
-    this.successMessage.scrollIntoView({ behavior: "smooth", block: "center" })
-
-    // Auto-hide after 8 seconds
-    setTimeout(() => {
-      this.successMessage.classList.add("hidden")
-    }, 8000)
-  }
-
-  showError(message) {
-    this.errorText.textContent = message
-    this.errorMessage.classList.remove("hidden")
-    this.errorMessage.scrollIntoView({ behavior: "smooth", block: "center" })
-
-    // Auto-hide after 10 seconds
-    setTimeout(() => {
-      this.errorMessage.classList.add("hidden")
-    }, 10000)
-  }
-
-  hideMessages() {
-    this.successMessage.classList.add("hidden")
-    this.errorMessage.classList.add("hidden")
-  }
-
-  clearAllErrors() {
-    const errorElements = this.form.querySelectorAll(".error-message")
-    const inputElements = this.form.querySelectorAll("input, textarea")
-
-    errorElements.forEach((el) => {
-      el.textContent = ""
-      el.style.display = "none"
-    })
-
-    inputElements.forEach((el) => {
-      el.classList.remove("error")
-      el.setAttribute("aria-invalid", "false")
-    })
-  }
-}
-
-// Initialize form handler when DOM is loaded
-document.addEventListener("DOMContentLoaded", () => {
-  new ContactFormHandler()
-})
-
-// Navbar background on scroll
-let navbarTimeout
-window.addEventListener("scroll", () => {
-  if (navbarTimeout) return
-  navbarTimeout = setTimeout(() => {
-    const navbar = document.querySelector(".navbar")
-    if (navbar) {
-      if (window.scrollY > 100) {
-        navbar.style.background = "rgba(0, 26, 13, 0.95)"
-        navbar.style.borderBottom = "1px solid rgba(255, 255, 255, 0.15)"
-      } else {
-        navbar.style.background = "rgba(0, 26, 13, 0.8)"
-        navbar.style.borderBottom = "1px solid rgba(255, 255, 255, 0.1)"
+      if (emailInput) {
+        if (!emailInput.value.trim()) {
+          showError(emailInput, "E-mailadres is verplicht.")
+          isValid = false
+        } else if (!validateEmail(emailInput.value)) {
+          showError(emailInput, "Voer een geldig e-mailadres in.")
+          isValid = false
+        }
       }
-    }
-    navbarTimeout = null
-  }, 16) // ~60fps
-})
 
-// Add loading animation to CTA buttons (only for non-form buttons)
-document.querySelectorAll(".cta-button").forEach((button) => {
-  button.addEventListener("click", function (e) {
-    if (this.getAttribute("href") === "#contact" || this.type === "submit") {
-      return // Let normal scroll behavior work or form handler manage loading
-    }
+      if (phoneInput) {
+        if (!phoneInput.value.trim()) {
+          showError(phoneInput, "Telefoonnummer is verplicht.")
+          isValid = false
+        } else if (!validatePhone(phoneInput.value)) {
+          showError(phoneInput, "Voer een geldig telefoonnummer in (minimaal 10 cijfers).")
+          isValid = false
+        }
+      }
 
-    // Add loading state for other CTA buttons if needed
-    const originalText = this.textContent
-    this.textContent = "Laden..."
-    this.disabled = true
+      // Validate checkboxes
+      if (checkboxes.length === 0) {
+        const checkboxGroup = signupForm.querySelector(".checkbox-group")
+        const formGroup = checkboxGroup?.closest(".form-group")
+        if (formGroup) {
+          formGroup.classList.add("error")
+          const errorElement = document.createElement("span")
+          errorElement.className = "form-error"
+          errorElement.textContent = "Selecteer minimaal één hulpvraag."
+          checkboxGroup.parentNode?.appendChild(errorElement)
+        }
+        isValid = false
+      }
 
-    setTimeout(() => {
-      this.textContent = originalText
-      this.disabled = false
-    }, 2000)
-  })
-})
+      if (messageInput && !messageInput.value.trim()) {
+        showError(messageInput, "Bericht is verplicht.")
+        isValid = false
+      }
 
-// Parallax effect for hero section (optional)
-let parallaxFrame
-function updateParallax() {
-  const scrolled = window.pageYOffset
-  const heroGlow = document.querySelector(".hero-glow")
-  if (heroGlow && scrolled < window.innerHeight) {
-    heroGlow.style.transform = `translate(-50%, -50%) translateY(${scrolled * 0.3}px)`
+      if (isValid) {
+        try {
+          const formData = new FormData(signupForm)
+          const response = await fetch("https://formspree.io/f/mvgbgekp", {
+            method: "POST",
+            body: formData,
+            headers: {
+              Accept: "application/json",
+            },
+          })
+
+          if (response.ok) {
+            alert("Bedankt voor uw aanmelding! Wij nemen zo spoedig mogelijk contact met u op.")
+            signupForm.reset()
+            // Reset checkbox visual states
+            const allCheckboxes = signupForm.querySelectorAll('.checkbox-item input[type="checkbox"]')
+            allCheckboxes.forEach((checkbox) => {
+              const checkboxItem = checkbox.closest(".checkbox-item")
+              checkboxItem?.classList.remove("checked")
+            })
+          } else {
+            throw new Error("Failed to send signup")
+          }
+        } catch (error) {
+          console.error("Error sending signup:", error)
+          alert("Er is een fout opgetreden bij het verzenden van uw aanmelding. Probeer het later opnieuw.")
+        }
+      }
+    })
   }
-  parallaxFrame = null
-}
 
-window.addEventListener("scroll", () => {
-  if (!parallaxFrame) {
-    parallaxFrame = requestAnimationFrame(updateParallax)
+  const sections = document.querySelectorAll(".section")
+  const observerOptions = {
+    root: null,
+    rootMargin: "0px",
+    threshold: 0.1,
   }
-})
 
-// Add animation classes when elements come into view
-const animateOnScroll = new IntersectionObserver(
-  (entries) => {
+  const sectionObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        entry.target.style.opacity = "1"
-        entry.target.style.transform = "translateY(0)"
-        // Stop observing once animated
-        animateOnScroll.unobserve(entry.target)
+        entry.target.classList.add("visible")
+        observer.unobserve(entry.target)
       }
     })
-  },
-  {
-    threshold: 0.1,
-    rootMargin: "0px 0px -50px 0px",
-  },
-)
+  }, observerOptions)
 
-// Apply animation to service cards, portfolio cards
-document.querySelectorAll(".service-card, .portfolio-card").forEach((card) => {
-  card.style.opacity = "0"
-  card.style.transform = "translateY(30px)"
-  card.style.transition = "opacity 0.6s ease, transform 0.6s ease"
-  animateOnScroll.observe(card)
-})
-
-// Portfolio Modal Functionality
-const portfolioModal = document.getElementById("portfolio-modal")
-const modalClose = document.getElementById("modal-close")
-const portfolioCards = document.querySelectorAll(".portfolio-card")
-
-// Portfolio project data
-const portfolioData = {
-  "viral-tiktok": {
-    title: "Aftermovie voor het Abu Tayyimah Event",
-    description:
-      "Voor het event van Abu Tayyimah maakte ik een korte recapvideo in vertical format. De video liet op een duidelijke en aantrekkelijke manier de sfeer en belangrijkste momenten van het event zien. Door de video slim op social media te delen met relevante hashtags kreeg het event extra aandacht en bereik ook na afloop.",
-    mainImage: "img/abu taymiyyah/hero edit.jpg",
-    imagePosition: "50% 3%",
-    isVertical: true,
-    gallery: [
-      {
-        type: "video",
-        src: "videos/Recap-Abu Taymiyyah event.mp4",
-        isVertical: true,
-        thumbnail: "img/abu taymiyyah/hero edit.jpg",
-      },
-      {
-        type: "image",
-        src: "img/abu taymiyyah/hero.jpg",
-        isVertical: true,
-      },
-    ],
-    projectLink: "https://www.tiktok.com/@barakahboost.nl/video/7523627234582646038",
-  },
-  "brand-identity": {
-    title: "Nuurfades - Fotografie en Editwerk",
-    description:
-      "Voor Nuurfades mocht ik zowel de fotografie als het editwerk verzorgen. Ik ging op zoek naar beelden die passen bij de uitstraling van het merk: stijlvol, warm en persoonlijk. Tijdens het editen lette ik op de kleinste details om ervoor te zorgen dat alles klopt — van kleurgebruik tot compositie. Het resultaat is een reeks foto's die niet alleen mooi zijn, maar ook écht iets vertellen.",
-    mainImage: "img/nuurfades/e89b3b7a-a0da-461b-9dd8-69452b3c8713_rw_1200.jpg",
-    imagePosition: "center 20%",
-    isVertical: true,
-    gallery: ["img/nuurfades/e89b3b7a-a0da-461b-9dd8-69452b3c8713_rw_1200.jpg"],
-  },
-  "ecommerce-platform": {
-    title: "Livzorg – Fotografie",
-    description:
-      "Voor Livzorg maakte ik een fotoserie waarin de mensen centraal staan. Geen afstandelijke beelden, maar echte momenten waarin warmte, rust en betrokkenheid voelbaar zijn. In de nabewerking heb ik de beelden zacht gehouden, zodat de natuurlijke sfeer behouden blijft. Dit sluit goed aan bij wie Livzorg is en waar ze voor staan.",
-    mainImage: "img/liv zorg/main-foto.jpg",
-    imagePosition: "right center",
-    isVertical: true,
-    gallery: [
-      { type: "image", src: "img/liv zorg/main-foto.jpg", isVertical: false },
-      { type: "image", src: "img/liv zorg/verticale-foto.jpg", isVertical: true },
-    ],
-  },
-}
-
-// Open modal when portfolio card is clicked
-portfolioCards.forEach((card) => {
-  card.addEventListener("click", () => {
-    const projectId = card.getAttribute("data-project")
-    const project = portfolioData[projectId]
-    if (project) {
-      openPortfolioModal(project)
-    }
+  sections.forEach((section) => {
+    section.classList.add("fade-in")
+    sectionObserver.observe(section)
   })
 
-  // Apply image position to the main portfolio card image on load
-  const projectId = card.getAttribute("data-project")
-  const project = portfolioData[projectId]
-  if (project && project.imagePosition) {
-    const projectImage = card.querySelector(".project-image")
-    if (projectImage) {
-      projectImage.style.objectPosition = project.imagePosition
-    }
-  }
-})
+  const scrollspyNav = document.querySelector(".scrollspy-nav")
+  const mobileProgressIndicator = document.querySelector(".mobile-progress-indicator")
+  const timelineItems = document.querySelectorAll(".timeline-item")
+  const progressItems = document.querySelectorAll(".progress-item")
+  const scrollspySections = document.querySelectorAll("#intro, #diensten, #over-ons, #werkwijze, #contact")
 
-// Close modal
-modalClose.addEventListener("click", closePortfolioModal)
-portfolioModal.addEventListener("click", (e) => {
-  if (e.target === portfolioModal) {
-    closePortfolioModal()
-  }
-})
+  // Function to control scrollspy visibility
+  const controlScrollspyVisibility = () => {
+    if (!scrollspyNav && !mobileProgressIndicator) return
 
-// ESC key to close modal
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && portfolioModal.classList.contains("active")) {
-    closePortfolioModal()
-  }
-})
+    const heroSection = document.querySelector("#hero")
+    const introSection = document.querySelector("#intro")
+    const currentScroll = window.pageYOffset
+    const headerHeight = document.querySelector(".header").offsetHeight
 
-function openPortfolioModal(project) {
-  // Set title and description
-  document.getElementById("modal-title").textContent = project.title
-  document.getElementById("modal-description").textContent = project.description
+    // Show scrollspy when we reach the intro section
+    if (heroSection && introSection) {
+      const heroBottom = heroSection.offsetTop + heroSection.offsetHeight
+      const introTop = introSection.offsetTop
 
-  // Set main image or video in the modal header
-  const modalImage = document.getElementById("modal-main-image")
-  const modalVideo = document.getElementById("modal-main-video")
-
-  // Always hide video in header and show image
-  modalVideo.style.display = "none"
-  modalImage.style.display = "block"
-  modalImage.src = project.mainImage
-  modalImage.alt = project.title
-
-  // Apply custom object-position if available
-  if (project.imagePosition) {
-    modalImage.style.objectPosition = project.imagePosition
-  } else {
-    modalImage.style.objectPosition = "center"
-  }
-
-  // Add vertical class if needed
-  if (project.isVertical) {
-    modalImage.classList.add("is-vertical")
-  } else {
-    modalImage.classList.remove("is-vertical")
-  }
-
-  // Set gallery
-  const galleryGrid = document.getElementById("gallery-grid")
-  galleryGrid.innerHTML = ""
-
-  const itemsToDisplayInGallery = []
-
-  // Add all gallery items from the project.gallery array
-  if (project.gallery) {
-    project.gallery.forEach((item) => {
-      if (typeof item === "string") {
-        itemsToDisplayInGallery.push({ type: "image", src: item })
+      if (currentScroll >= introTop - headerHeight - 100) {
+        if (scrollspyNav) scrollspyNav.classList.add("visible")
+        if (mobileProgressIndicator) mobileProgressIndicator.classList.add("visible")
       } else {
-        itemsToDisplayInGallery.push({ ...item })
+        if (scrollspyNav) scrollspyNav.classList.remove("visible")
+        if (mobileProgressIndicator) mobileProgressIndicator.classList.remove("visible")
       }
-    })
-  }
-
-  // Populate the gallery grid
-  itemsToDisplayInGallery.forEach((item) => {
-    const galleryItem = document.createElement("div")
-    galleryItem.className = "gallery-item"
-
-    if (item.type === "video") {
-      galleryItem.innerHTML = `
-        <video class="gallery-video" controls ${item.thumbnail ? `poster="${item.thumbnail}"` : ""}>
-          <source src="${item.src}" type="video/mp4">
-          <p>Je browser ondersteunt deze video niet. <a href="${item.src}" target="_blank">Download de video</a></p>
-        </video>
-      `
-    } else if (item.type === "image") {
-      galleryItem.innerHTML = `<img src="${item.src}" alt="Project afbeelding" class="gallery-image">`
     }
-    galleryGrid.appendChild(galleryItem)
-  })
-
-  // Set project link if available
-  const projectLink = document.getElementById("modal-project-link")
-  if (project.projectLink) {
-    projectLink.href = project.projectLink
-    projectLink.style.display = "inline-flex"
-  } else {
-    projectLink.style.display = "none"
   }
 
-  // Add event listeners to CTA buttons in modal
-  const modalCTAButtons = document.querySelectorAll('.modal-cta[href="#contact"]')
-  modalCTAButtons.forEach((button) => {
-    button.removeEventListener("click", handleModalCTA)
-    button.addEventListener("click", handleModalCTA)
-  })
+  // Enhanced Intersection Observer for scrollspy
+  const scrollspyObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const sectionId = entry.target.id
 
-  // Show modal
-  portfolioModal.classList.add("active")
-  document.body.style.overflow = "hidden"
-}
-
-function closePortfolioModal() {
-  portfolioModal.classList.remove("active")
-  document.body.style.overflow = "auto"
-
-  // Pause video if playing
-  const modalVideo = document.getElementById("modal-main-video")
-  if (!modalVideo.paused) {
-    modalVideo.pause()
-  }
-}
-
-// Handle CTA buttons in modal
-function handleModalCTA(e) {
-  e.preventDefault()
-
-  // Close the modal first
-  closePortfolioModal()
-
-  // Small delay to ensure modal closes smoothly, then scroll to contact
-  setTimeout(() => {
-    const contactSection = document.querySelector("#contact")
-    if (contactSection) {
-      contactSection.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      })
-
-      // Optional: Focus on the first input field
-      setTimeout(() => {
-        const firstInput = document.querySelector('input[name="name"]')
-        if (firstInput) {
-          firstInput.focus()
-        }
-      }, 800)
-    }
-  }, 300)
-}
-
-// Process steps animation
-const processSteps = document.querySelectorAll(".process-step")
-
-processSteps.forEach((step, index) => {
-  step.style.opacity = "0"
-  step.style.transform = "translateY(40px)"
-  step.style.transition = "opacity 0.6s ease, transform 0.6s ease"
-
-  // Add delay based on index for staggered animation
-  setTimeout(() => {
-    animateOnScroll.observe(step)
-  }, index * 100)
-})
-
-// Counter animation for stats section
-const counterElement = document.getElementById("counter")
-const targetValue = 20000000 // 20 million
-const duration = 1500 // 1.5 seconds for animation
-
-let animationStarted = false
-
-function formatViews(num) {
-  return Math.round(num).toLocaleString("nl-NL")
-}
-
-function animateCounter(timestamp) {
-  if (!animateCounter.startTime) animateCounter.startTime = timestamp
-  const progress = timestamp - animateCounter.startTime
-  const percentage = Math.min(progress / duration, 1)
-  const currentValue = percentage * targetValue
-
-  if (counterElement) {
-    counterElement.textContent = formatViews(currentValue)
-  }
-
-  if (percentage < 1) {
-    requestAnimationFrame(animateCounter)
-  } else if (counterElement) {
-    counterElement.textContent = formatViews(targetValue)
-  }
-}
-
-const statsObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && !animationStarted) {
-        animationStarted = true
-        animateCounter.startTime = null
-        requestAnimationFrame(animateCounter)
-        statsObserver.unobserve(entry.target)
-      }
-    })
-  },
-  {
-    threshold: 0.5,
-    rootMargin: "0px 0px -100px 0px",
-  },
-)
-
-const statsSection = document.getElementById("stats")
-if (statsSection) {
-  statsObserver.observe(statsSection)
-}
-
-// Hero Slideshow Logic
-const heroMockupSlideshowContainer = document.querySelector(".hero-mockup-slideshow")
-const heroSlideshowItems = [
-  {
-    type: "image",
-    src: "img/abu taymiyyah/hero.jpg",
-    alt: "Event Recap Video",
-  },
-  {
-    type: "image",
-    src: "img/nuurfades/e89b3b7a-a0da-461b-9dd8-69452b3c8713_rw_1200.jpg",
-    alt: "Nuurfades Fotografie Mockup",
-  },
-  {
-    type: "image",
-    src: "img/liv zorg/verticale-foto.jpg",
-    alt: "Livzorg Fotografie Mockup",
-  },
-]
-let currentHeroSlide = 0
-const heroSlideIntervalTime = 4000 // Increased for better UX
-
-function createHeroSlideElement(item) {
-  const slideDiv = document.createElement("div")
-  slideDiv.classList.add("mobile-mockup-card")
-
-  const mockupContentDiv = document.createElement("div")
-  mockupContentDiv.classList.add("mockup-content")
-
-  if (item.type === "image") {
-    const imgElement = document.createElement("img")
-    imgElement.src = item.src
-    imgElement.alt = item.alt
-    imgElement.classList.add("mockup-image-video")
-    imgElement.loading = "lazy" // Add lazy loading
-    mockupContentDiv.appendChild(imgElement)
-  } else if (item.type === "video") {
-    const videoElement = document.createElement("video")
-    videoElement.src = item.src
-    videoElement.alt = item.alt
-    videoElement.classList.add("mockup-image-video")
-    videoElement.setAttribute("autoplay", "")
-    videoElement.setAttribute("loop", "")
-    videoElement.setAttribute("muted", "")
-    videoElement.setAttribute("playsinline", "")
-    videoElement.setAttribute("preload", "metadata") // Optimize video loading
-    if (item.poster) {
-      videoElement.setAttribute("poster", item.poster)
-    }
-    mockupContentDiv.appendChild(videoElement)
-  }
-
-  slideDiv.appendChild(mockupContentDiv)
-  return slideDiv
-}
-
-function initializeHeroSlideshow() {
-  if (!heroMockupSlideshowContainer) return
-
-  // Clear existing content
-  heroMockupSlideshowContainer.innerHTML = ""
-
-  // Add slides dynamically
-  heroSlideshowItems.forEach((item) => {
-    const slideElement = createHeroSlideElement(item)
-    heroMockupSlideshowContainer.appendChild(slideElement)
-  })
-
-  const slides = heroMockupSlideshowContainer.querySelectorAll(".mobile-mockup-card")
-
-  function showHeroSlide(index) {
-    slides.forEach((slide, i) => {
-      const video = slide.querySelector("video")
-
-      if (i === index) {
-        slide.classList.add("active")
-        if (video) {
-          video.currentTime = 0
-          video.play().catch((error) => {
-            console.warn("Video autoplay geblokkeerd:", error)
+          // Update active states for timeline items
+          timelineItems.forEach((item) => {
+            item.classList.remove("active")
+            if (item.dataset.target === sectionId) {
+              item.classList.add("active")
+              item.querySelector(".timeline-marker").setAttribute("aria-current", "true")
+            } else {
+              item.querySelector(".timeline-marker").removeAttribute("aria-current")
+            }
           })
+
+          // Update active states for mobile progress items
+          progressItems.forEach((item) => {
+            item.classList.remove("active")
+            if (item.dataset.target === sectionId) {
+              item.classList.add("active")
+            }
+          })
+
+          // Update URL hash without jumping
+          if (history.replaceState) {
+            history.replaceState(null, null, `#${sectionId}`)
+          }
         }
-      } else {
-        slide.classList.remove("active")
-        if (video) {
-          video.pause()
-        }
-      }
-    })
-  }
+      })
+    },
+    {
+      root: null,
+      rootMargin: "-20% 0px -60% 0px",
+      threshold: 0,
+    },
+  )
 
-  function nextHeroSlide() {
-    currentHeroSlide = (currentHeroSlide + 1) % slides.length
-    showHeroSlide(currentHeroSlide)
-  }
+  // Observe scrollspy sections
+  scrollspySections.forEach((section) => {
+    scrollspyObserver.observe(section)
+  })
 
-  if (slides.length > 0) {
-    showHeroSlide(currentHeroSlide)
-    setInterval(nextHeroSlide, heroSlideIntervalTime)
-  }
-}
+  // Click handlers for timeline items
+  timelineItems.forEach((item) => {
+    const marker = item.querySelector(".timeline-marker")
+    const label = item.querySelector(".timeline-label")
 
-// Initialize Logo Carousel - PROFESSIONELE SNELHEID MET BEDRIJFSNAMEN
-function initializeLogoCarousel() {
-  console.log("Initializing logo carousel...")
+    const clickHandler = (e) => {
+      e.preventDefault()
+      const targetId = item.dataset.target
+      const targetElement = document.getElementById(targetId)
 
-  const Swiper = window.Swiper // Declare Swiper variable
+      if (targetElement) {
+        const header = document.querySelector(".header")
+        const footer = document.querySelector(".footer")
+        const headerOffset = header ? header.offsetHeight : 0
+        const mobileProgressOffset = window.innerWidth <= 768 ? 60 : 0
+        const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset
+        let offsetPosition = elementPosition - headerOffset - mobileProgressOffset - 20
 
-  if (typeof Swiper === "undefined") {
-    console.error("Swiper is not loaded")
-    return
-  }
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight
+        const footerHeight = footer ? footer.offsetHeight : 0
+        const minScroll = headerOffset
 
-  try {
-    const containerSelector = ".logo-carousel"
-    const container = document.querySelector(containerSelector)
+        offsetPosition = Math.max(minScroll, Math.min(offsetPosition, maxScroll - footerHeight))
 
-    if (!container) {
-      console.error("Logo carousel container not found")
-      return
-    }
-
-    const isMobile = window.matchMedia("(max-width: 768px)").matches
-
-   const logoCarousel = new Swiper(".logo-carousel", {
-  slidesPerView: "auto",
-  spaceBetween: 0,
-  loop: true,
-  centeredSlides: false,
-  speed: 5000, // constante snelheid
-  freeMode: true,
-  freeModeMomentum: false,
-  allowTouchMove: false, // voorkomt dat swipe interactie de animatie stopt
-  autoplay: {
-    delay: 1,
-    disableOnInteraction: false, // GEEN stop bij interactie
-    pauseOnMouseEnter: false, 
-  },
-speed: 5000,      // snelheid van animatie
-freeMode: true,
-freeModeMomentum: false,
-loop: true,
-
-});
-
-
-    const resume = () => {
-      try {
-        logoCarousel.params.autoplay.disableOnInteraction = false
-        logoCarousel.autoplay.start()
-        if (!logoCarousel.autoplay.running) logoCarousel.autoplay.start()
-      } catch (e) {
-        console.warn("Could not resume autoplay:", e)
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth",
+        })
       }
     }
 
-    // Optimized event handling
-    logoCarousel.on("touchStart", resume)
-    logoCarousel.on("touchEnd", resume)
-    logoCarousel.on("transitionEnd", resume)
-
-    // Throttled DOM events
-    let eventTimeout
-    const handleEvent = () => {
-      if (eventTimeout) return
-      eventTimeout = setTimeout(() => {
-        resume()
-        eventTimeout = null
-      }, 100)
+    const keyHandler = (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault()
+        clickHandler(e)
+      }
     }
-    ;["click", "touchstart", "touchend"].forEach((evt) => {
-      container.addEventListener(evt, handleEvent, { passive: true })
+
+    marker.addEventListener("click", clickHandler)
+    marker.addEventListener("keydown", keyHandler)
+    label.addEventListener("click", clickHandler)
+  })
+
+  // Click handlers for mobile progress items
+  progressItems.forEach((item) => {
+    item.addEventListener("click", (e) => {
+      e.preventDefault()
+      const targetId = item.dataset.target
+      const targetElement = document.getElementById(targetId)
+
+      if (targetElement) {
+        const header = document.querySelector(".header")
+        const footer = document.querySelector(".footer")
+        const headerOffset = header ? header.offsetHeight : 0
+        const mobileProgressOffset = 60
+        const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset
+        let offsetPosition = elementPosition - headerOffset - mobileProgressOffset - 20
+
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight
+        const footerHeight = footer ? footer.offsetHeight : 0
+        const minScroll = headerOffset
+
+        offsetPosition = Math.max(minScroll, Math.min(offsetPosition, maxScroll - footerHeight))
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth",
+        })
+      }
     })
+  })
 
-    // Restart on visibility change
-    document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "visible") resume()
-    })
+  const initializeScrollspy = () => {
+    controlScrollspyVisibility()
 
-    // Force start autoplay
-    setTimeout(resume, 300)
+    const hash = window.location.hash.substring(1)
+    if (hash && scrollspySections.length > 0) {
+      const targetSection = document.getElementById(hash)
+      if (targetSection) {
+        // Set initial active state
+        timelineItems.forEach((item) => {
+          item.classList.remove("active")
+          if (item.dataset.target === hash) {
+            item.classList.add("active")
+            item.querySelector(".timeline-marker").setAttribute("aria-current", "true")
+          }
+        })
 
-    console.log("Logo carousel initialized successfully")
-  } catch (error) {
-    console.error("Error initializing logo carousel:", error)
-  }
-}
-
-// Initialize everything when DOM is loaded
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM loaded, initializing components...")
-  initializeHeroSlideshow()
-
-  // Wait for Swiper to load with timeout fallback
-  let swiperCheckCount = 0
-  const maxChecks = 20
-
-  function checkSwiper() {
-    if (typeof window.Swiper !== "undefined") {
-      initializeLogoCarousel()
-    } else if (swiperCheckCount < maxChecks) {
-      swiperCheckCount++
-      setTimeout(checkSwiper, 100)
+        progressItems.forEach((item) => {
+          item.classList.remove("active")
+          if (item.dataset.target === hash) {
+            item.classList.add("active")
+          }
+        })
+      }
     } else {
-      console.warn("Swiper failed to load after timeout")
+      // Set first section as active by default
+      if (timelineItems.length > 0) {
+        timelineItems[0].classList.add("active")
+        timelineItems[0].querySelector(".timeline-marker").setAttribute("aria-current", "true")
+      }
+      if (progressItems.length > 0) {
+        progressItems[0].classList.add("active")
+      }
     }
   }
 
-  setTimeout(checkSwiper, 500)
+  // Initialize scrollspy
+  initializeScrollspy()
+
+  window.addEventListener("scroll", () => {
+    controlScrollspyVisibility()
+  })
+
+  // Handle browser back/forward navigation
+  window.addEventListener("popstate", initializeScrollspy)
 })
