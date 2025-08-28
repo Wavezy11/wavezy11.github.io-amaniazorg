@@ -767,20 +767,25 @@ function initializeLogoCarousel() {
 
     const isMobile = window.matchMedia("(max-width: 768px)").matches
 
-   const logoCarousel = new Swiper(containerSelector, {
+   const logoCarousel = new Swiper(".logo-carousel", {
   slidesPerView: "auto",
   spaceBetween: 0,
   loop: true,
   centeredSlides: false,
   speed: 5000, // constante snelheid
-  allowTouchMove: false,
   freeMode: true,
   freeModeMomentum: false,
+  allowTouchMove: false, // voorkomt dat swipe interactie de animatie stopt
   autoplay: {
-    delay: 1, // heel klein, geen echte pauze
-    disableOnInteraction: false,
+    delay: 1,
+    disableOnInteraction: false, // GEEN stop bij interactie
+    pauseOnMouseEnter: false, 
   },
-  loopAdditionalSlides: 10, // ruim duplicaten
+speed: 5000,      // snelheid van animatie
+freeMode: true,
+freeModeMomentum: false,
+loop: true,
+
 });
 
 

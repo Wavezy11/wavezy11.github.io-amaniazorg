@@ -545,14 +545,14 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 16px 40px rgba(26, 125, 68, 0.25);
 }
-
 .team-image {
   width: 100%;
   height: 450px;
-  object-fit: cover;
+  object-fit: contain; /* hele afbeelding tonen binnen vaste hoogte */
   border-radius: 24px;
   box-shadow: 0 32px 80px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #002310; /* optioneel: vult de lege ruimte */
 }
 
 /* How We Work Section */
@@ -2310,6 +2310,11 @@ body {
   .company-name {
     font-size: 0.75rem;
   }
+  .logo-carousel-container, .swiper-slide {
+  pointer-events: none; /* zorgt dat klikken geen autoplay stopt */
+}
+
+
 }
 
 @media screen and (max-width: 767px) {
@@ -2325,6 +2330,11 @@ body {
     justify-content: center !important;
     text-align: center !important;
   }
+  .logo-carousel-container, .swiper-slide {
+  pointer-events: none; /* zorgt dat klikken geen autoplay stopt */
+}
+
+
 }
 
 @media screen and (max-width: 768px) {
@@ -2332,6 +2342,11 @@ body {
     flex-wrap: wrap !important;
     overflow: visible !important;
   }
+  .logo-carousel-container, .swiper-slide {
+  pointer-events: none; /* zorgt dat klikken geen autoplay stopt */
+}
+
+
 }
 
 .logo-carousel .swiper-slide,
@@ -2386,4 +2401,15 @@ body {
     max-width: 650px; /* mockup breder */
     height: 520px;    /* mockup hoger */
   }
+  .logo-carousel-container, .swiper-slide {
+  pointer-events: none; /* zorgt dat klikken geen autoplay stopt */
 }
+
+
+}
+
+
+.logo-carousel-container, .swiper-slide {
+  pointer-events: none; /* zorgt dat klikken geen autoplay stopt */
+}
+
