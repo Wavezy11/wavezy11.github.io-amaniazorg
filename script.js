@@ -28,57 +28,55 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     })
   })
+// Mobile navigation
+const hamburgerMenu = document.querySelector(".hamburger-menu");
+const navList = document.querySelector(".nav-list");
+const navLinks = document.querySelectorAll(".nav-list .nav-link");
+const closeMenu = document.querySelector(".close-menu");
 
-  // Mobile navigation
-  const hamburgerMenu = document.querySelector(".hamburger-menu")
-  const navList = document.querySelector(".nav-list")
-  const navLinks = document.querySelectorAll(".nav-list .nav-link")
+// Create overlay element for mobile menu
+let navOverlay = document.querySelector(".nav-overlay");
+if (!navOverlay) {
+  navOverlay = document.createElement("div");
+  navOverlay.className = "nav-overlay";
+  document.body.appendChild(navOverlay);
+}
 
-  // Create overlay element for mobile menu
-  let navOverlay = document.querySelector(".nav-overlay")
-  if (!navOverlay) {
-    navOverlay = document.createElement("div")
-    navOverlay.className = "nav-overlay"
-    document.body.appendChild(navOverlay)
+function closeMobileMenu() {
+  navList.classList.remove("active");
+  navOverlay.classList.remove("active");
+  hamburgerMenu.setAttribute("aria-expanded", "false");
+  document.body.style.overflow = "";
+}
+
+if (hamburgerMenu && navList) {
+  // Open / close toggle
+  hamburgerMenu.addEventListener("click", () => {
+    const isActive = navList.classList.contains("active");
+
+    if (isActive) {
+      closeMobileMenu();
+    } else {
+      navList.classList.add("active");
+      navOverlay.classList.add("active");
+      hamburgerMenu.setAttribute("aria-expanded", "true");
+      document.body.style.overflow = "hidden";
+    }
+  });
+
+  // Nav links sluiten menu
+  navLinks.forEach((link) => {
+    link.addEventListener("click", closeMobileMenu);
+  });
+
+  // Overlay sluiten
+  navOverlay.addEventListener("click", closeMobileMenu);
+
+  // ✅ Close button sluiten
+  if (closeMenu) {
+    closeMenu.addEventListener("click", closeMobileMenu);
   }
-
-  if (hamburgerMenu && navList) {
-    hamburgerMenu.addEventListener("click", () => {
-      const isActive = navList.classList.contains("active")
-
-      if (isActive) {
-        navList.classList.remove("active")
-        navOverlay.classList.remove("active")
-        hamburgerMenu.setAttribute("aria-expanded", "false")
-        document.body.style.overflow = ""
-      } else {
-        navList.classList.add("active")
-        navOverlay.classList.add("active")
-        hamburgerMenu.setAttribute("aria-expanded", "true")
-        document.body.style.overflow = "hidden"
-      }
-    })
-
-    navLinks.forEach((link) => {
-      link.addEventListener("click", () => {
-        if (navList.classList.contains("active")) {
-          navList.classList.remove("active")
-          navOverlay.classList.remove("active")
-          hamburgerMenu.setAttribute("aria-expanded", "false")
-          document.body.style.overflow = ""
-        }
-      })
-    })
-
-    navOverlay.addEventListener("click", () => {
-      if (navList.classList.contains("active")) {
-        navList.classList.remove("active")
-        navOverlay.classList.remove("active")
-        hamburgerMenu.setAttribute("aria-expanded", "false")
-        document.body.style.overflow = ""
-      }
-    })
-  }
+}
 
   // Back to top button
   const backToTopButton = document.getElementById("back-to-top")
@@ -388,34 +386,60 @@ document.addEventListener("DOMContentLoaded", () => {
   const timelineItems = document.querySelectorAll(".timeline-item")
   const progressItems = document.querySelectorAll(".progress-item")
   const scrollspySections = document.querySelectorAll("#intro, #diensten, #over-ons, #werkwijze, #contact")
+  let hideTimeout
+
+  function showScrollspy() {
+    if (!scrollspyNav || window.innerWidth <= 768) return
+    scrollspyNav.classList.add("visible")
+    clearTimeout(hideTimeout)
+    hideTimeout = setTimeout(() => {
+      scrollspyNav.classList.remove("visible")
+    }, 1500)
+  }
+
+  const scrollspyWatchSections = document.querySelectorAll("section[id]")
+  const mobileObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && window.innerWidth > 768) {
+          showScrollspy()
+        }
+      })
+    },
+    { threshold: 0.6 },
+  )
+
+  if (window.innerWidth > 768) {
+    scrollspyWatchSections.forEach((section) => mobileObserver.observe(section))
+  }
 
   // Function to control scrollspy visibility
   const controlScrollspyVisibility = () => {
-    if (!scrollspyNav && !mobileProgressIndicator) return
+    if ((!scrollspyNav && !mobileProgressIndicator) || window.innerWidth <= 768) return
 
     const heroSection = document.querySelector("#hero")
     const introSection = document.querySelector("#intro")
     const currentScroll = window.pageYOffset
     const headerHeight = document.querySelector(".header").offsetHeight
 
-    // Show scrollspy when we reach the intro section
-    if (heroSection && introSection) {
+    // Show scrollspy when we reach the intro section (desktop only)
+    if (heroSection && introSection && window.innerWidth > 768) {
       const heroBottom = heroSection.offsetTop + heroSection.offsetHeight
       const introTop = introSection.offsetTop
 
       if (currentScroll >= introTop - headerHeight - 100) {
         if (scrollspyNav) scrollspyNav.classList.add("visible")
-        if (mobileProgressIndicator) mobileProgressIndicator.classList.add("visible")
       } else {
         if (scrollspyNav) scrollspyNav.classList.remove("visible")
-        if (mobileProgressIndicator) mobileProgressIndicator.classList.remove("visible")
       }
     }
   }
 
-  // Enhanced Intersection Observer for scrollspy
+  // Enhanced Intersection Observer for scrollspy (desktop only)
   const scrollspyObserver = new IntersectionObserver(
     (entries, observer) => {
+      if (window.innerWidth <= 768) return
+
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const sectionId = entry.target.id
@@ -428,14 +452,6 @@ document.addEventListener("DOMContentLoaded", () => {
               item.querySelector(".timeline-marker").setAttribute("aria-current", "true")
             } else {
               item.querySelector(".timeline-marker").removeAttribute("aria-current")
-            }
-          })
-
-          // Update active states for mobile progress items
-          progressItems.forEach((item) => {
-            item.classList.remove("active")
-            if (item.dataset.target === sectionId) {
-              item.classList.add("active")
             }
           })
 
@@ -453,10 +469,11 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   )
 
-  // Observe scrollspy sections
-  scrollspySections.forEach((section) => {
-    scrollspyObserver.observe(section)
-  })
+  if (window.innerWidth > 768) {
+    scrollspySections.forEach((section) => {
+      scrollspyObserver.observe(section)
+    })
+  }
 
   // Click handlers for timeline items
   timelineItems.forEach((item) => {
@@ -531,6 +548,8 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 
   const initializeScrollspy = () => {
+    if (window.innerWidth <= 768) return
+
     controlScrollspyVisibility()
 
     const hash = window.location.hash.substring(1)
@@ -545,13 +564,6 @@ document.addEventListener("DOMContentLoaded", () => {
             item.querySelector(".timeline-marker").setAttribute("aria-current", "true")
           }
         })
-
-        progressItems.forEach((item) => {
-          item.classList.remove("active")
-          if (item.dataset.target === hash) {
-            item.classList.add("active")
-          }
-        })
       }
     } else {
       // Set first section as active by default
@@ -559,13 +571,10 @@ document.addEventListener("DOMContentLoaded", () => {
         timelineItems[0].classList.add("active")
         timelineItems[0].querySelector(".timeline-marker").setAttribute("aria-current", "true")
       }
-      if (progressItems.length > 0) {
-        progressItems[0].classList.add("active")
-      }
     }
   }
 
-  // Initialize scrollspy
+  // Initialize scrollspy (desktop only)
   initializeScrollspy()
 
   window.addEventListener("scroll", () => {
@@ -574,4 +583,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Handle browser back/forward navigation
   window.addEventListener("popstate", initializeScrollspy)
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth <= 768) {
+      // Hide scrollspy on mobile
+      if (scrollspyNav) scrollspyNav.classList.remove("visible")
+      if (mobileProgressIndicator) mobileProgressIndicator.classList.remove("visible")
+    } else {
+      // Reinitialize scrollspy on desktop
+      initializeScrollspy()
+    }
+  })
 })
