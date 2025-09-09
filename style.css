@@ -48,6 +48,15 @@ body {
   padding: 0 var(--spacing-sm);
 }
 
+html, body {
+  max-width: 100%;
+  overflow-x: hidden !important;
+}
+
+* {
+  max-width: 100%;
+}
+
 /* Skip link voor toegankelijkheid */
 .skip-link {
   position: absolute;
