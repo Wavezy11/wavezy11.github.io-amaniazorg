@@ -53,9 +53,6 @@ html, body {
   overflow-x: hidden !important;
 }
 
-* {
-  max-width: 100%;
-}
 
 /* Skip link voor toegankelijkheid */
 .skip-link {
